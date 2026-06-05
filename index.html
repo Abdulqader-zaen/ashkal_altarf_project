@@ -73,8 +73,237 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+
+<style>
+/* ================================================
+   SPLASH SCREEN
+================================================ */
+#splash-screen {
+  position: fixed; inset: 0; z-index: 99999;
+  background: #0c0e15;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  transition: none;
+}
+#splash-screen.s-exit {
+  animation: splashUp .75s cubic-bezier(.76,0,.24,1) forwards;
+}
+@keyframes splashUp {
+  0%   { transform: translateY(0);     opacity: 1; }
+  100% { transform: translateY(-100%); opacity: .6; }
+}
+
+/* ── خطوط الخلفية الصلبية ── */
+.sp-bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.sp-line {
+  position: absolute; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(201,168,76,.18) 50%, transparent 100%);
+  transform-origin: center;
+  transform: scaleX(0);
+  animation: spLineGrow .9s ease forwards;
+}
+.sp-line:nth-child(1) { top: 20%; animation-delay: .05s; }
+.sp-line:nth-child(2) { top: 35%; height: 2px; opacity: .6; animation-delay: .12s; }
+.sp-line:nth-child(3) { top: 50%; height: 1px; opacity: .3; animation-delay: .08s; }
+.sp-line:nth-child(4) { top: 65%; height: 2px; opacity: .6; animation-delay: .15s; }
+.sp-line:nth-child(5) { top: 80%; animation-delay: .04s; }
+@keyframes spLineGrow {
+  to { transform: scaleX(1); }
+}
+
+/* الخطوط العمودية */
+.sp-vline {
+  position: absolute; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(180deg, transparent 0%, rgba(201,168,76,.08) 50%, transparent 100%);
+  transform-origin: center;
+  transform: scaleY(0);
+  animation: spVLineGrow .9s ease forwards;
+}
+.sp-vline:nth-child(6) { left: 20%;  animation-delay: .1s; }
+.sp-vline:nth-child(7) { left: 50%;  animation-delay: .06s; }
+.sp-vline:nth-child(8) { right: 20%; animation-delay: .13s; }
+@keyframes spVLineGrow {
+  to { transform: scaleY(1); }
+}
+
+/* ── المحتوى المركزي ── */
+.sp-center {
+  position: relative; z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center; text-align: center;
+}
+
+/* حلقة التوهج الذهبي خلف اللوجو */
+.sp-glow {
+  position: absolute;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,.18) 0%, rgba(201,168,76,.04) 50%, transparent 75%);
+  animation: spGlowPulse 2.5s ease infinite;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+@keyframes spGlowPulse {
+  0%,100% { transform: translate(-50%,-50%) scale(1);   opacity: .7; }
+  50%      { transform: translate(-50%,-50%) scale(1.15); opacity: 1; }
+}
+
+/* غلاف اللوجو */
+.sp-logo-wrap {
+  position: relative;
+  width: 120px; height: 120px;
+  margin-bottom: 1.8rem;
+  animation: spLogoIn .65s cubic-bezier(.34,1.56,.64,1) .2s both;
+}
+@keyframes spLogoIn {
+  from { transform: scale(.45) rotate(-8deg); opacity: 0; filter: blur(8px); }
+  to   { transform: scale(1)   rotate(0deg);  opacity: 1; filter: blur(0); }
+}
+.sp-logo-wrap svg { width: 100%; height: 100%; }
+
+/* بريق ذهبي يمر على اللوجو */
+.sp-shimmer {
+  position: absolute; inset: 0; border-radius: 8px; overflow: hidden;
+  pointer-events: none;
+}
+.sp-shimmer::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.55) 50%, transparent 70%);
+  transform: translateX(-150%);
+  animation: spShimmer .6s ease .95s forwards;
+}
+@keyframes spShimmer {
+  to { transform: translateX(150%); }
+}
+
+/* اسم الشركة */
+.sp-brand {
+  font-family: 'Tajawal', sans-serif;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  font-weight: 900;
+  letter-spacing: 3px;
+  background: linear-gradient(135deg, #f0f2fa 20%, #c9a84c 60%, #e8c97a 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: spTextIn .55s ease .72s both;
+}
+.sp-tagline {
+  font-family: 'Tajawal', sans-serif;
+  font-size: .95rem; letter-spacing: 5px;
+  color: rgba(201,168,76,.65);
+  margin-top: .35rem;
+  animation: spTextIn .55s ease .88s both;
+}
+@keyframes spTextIn {
+  from { transform: translateY(22px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* فاصل ذهبي */
+.sp-divider {
+  width: 0; height: 1.5px;
+  background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+  margin: 1.1rem auto .9rem;
+  animation: spDivider .7s ease 1.05s forwards;
+}
+@keyframes spDivider {
+  to { width: 160px; }
+}
+
+/* نقاط التحميل */
+.sp-dots {
+  display: flex; gap: 7px; justify-content: center;
+  animation: spTextIn .4s ease 1.15s both;
+}
+.sp-dots span {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(201,168,76,.4);
+  animation: spDot 1.4s ease infinite;
+}
+.sp-dots span:nth-child(2) { animation-delay: .22s; }
+.sp-dots span:nth-child(3) { animation-delay: .44s; }
+@keyframes spDot {
+  0%,100% { transform: scale(1);   background: rgba(201,168,76,.35); }
+  50%      { transform: scale(1.6); background: #c9a84c; }
+}
+</style>
 </head>
 <body data-page="home">
+
+<!-- ===== SPLASH SCREEN ===== -->
+<div id="splash-screen">
+
+  <!-- خلفية الخطوط -->
+  <div class="sp-bg">
+    <div class="sp-line"></div>
+    <div class="sp-line"></div>
+    <div class="sp-line"></div>
+    <div class="sp-line"></div>
+    <div class="sp-line"></div>
+    <div class="sp-vline"></div>
+    <div class="sp-vline"></div>
+    <div class="sp-vline"></div>
+  </div>
+
+  <!-- المحتوى -->
+  <div class="sp-center">
+    <div class="sp-glow"></div>
+
+    <!-- اللوجو -->
+    <div class="sp-logo-wrap">
+      <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="4" y="4" width="112" height="112" rx="4" stroke="url(#spg1)" stroke-width="2"/>
+        <rect x="20" y="28" width="80" height="10" fill="url(#spg2)"/>
+        <rect x="50" y="38" width="20" height="44" fill="url(#spg2)"/>
+        <rect x="20" y="82" width="80" height="10" fill="url(#spg2)"/>
+        <rect x="28" y="46" width="20" height="20" rx="1" stroke="url(#spg2)" stroke-width="2.5" fill="none"/>
+        <line x1="10" y1="10" x2="18" y2="10" stroke="#c9a84c" stroke-width="1.5"/>
+        <line x1="10" y1="10" x2="10" y2="18" stroke="#c9a84c" stroke-width="1.5"/>
+        <line x1="110" y1="10" x2="102" y2="10" stroke="#c9a84c" stroke-width="1.5"/>
+        <line x1="110" y1="10" x2="110" y2="18" stroke="#c9a84c" stroke-width="1.5"/>
+        <line x1="10" y1="110" x2="18" y2="110" stroke="#c9a84c" stroke-width="1.5"/>
+        <line x1="10" y1="110" x2="10" y2="102" stroke="#c9a84c" stroke-width="1.5"/>
+        <line x1="110" y1="110" x2="102" y2="110" stroke="#c9a84c" stroke-width="1.5"/>
+        <line x1="110" y1="110" x2="110" y2="102" stroke="#c9a84c" stroke-width="1.5"/>
+        <defs>
+          <linearGradient id="spg1" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#c9a84c"/><stop offset="1" stop-color="#8b6914"/>
+          </linearGradient>
+          <linearGradient id="spg2" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+            <stop stop-color="#e8c97a"/><stop offset="1" stop-color="#c9a84c"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="sp-shimmer"></div>
+    </div>
+
+    <div class="sp-brand">أشكال الترف</div>
+    <div class="sp-tagline">للحديد الصناعي</div>
+    <div class="sp-divider"></div>
+    <div class="sp-dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var sp = document.getElementById('splash-screen');
+  // إذا زار الصفحة مسبقاً في نفس الجلسة، أخفِ الـ splash
+  if (sessionStorage.getItem('sp_done')) { sp.style.display='none'; return; }
+  document.body.style.overflow = 'hidden';
+  setTimeout(function(){
+    sp.classList.add('s-exit');
+    setTimeout(function(){
+      sp.style.display = 'none';
+      document.body.style.overflow = '';
+      sessionStorage.setItem('sp_done','1');
+    }, 750);
+  }, 2200);
+})();
+</script>
 
 <!-- NAV -->
 <nav id="navbar">
