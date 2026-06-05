@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مقالات ونصائح الحديد الصناعي | أشكال الترف – المدينة المنورة</title>
+<meta name="description" content="مقالات ونصائح متخصصة في الحديد الصناعي من أشكال الترف بالمدينة المنورة: أسعار الحديد، اختيار الكمرات، حماية الحديد من الصدأ، ونصائح للمقاولين.">
+<meta name="keywords" content="مقالات حديد صناعي، نصائح مقاولين المدينة المنورة، أسعار حديد السعودية، كمرات حديد نصائح، حديد صناعي المدينة المنورة">
+<meta property="og:title" content="مقالات الحديد الصناعي | أشكال الترف – المدينة المنورة">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="articles">
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">
+    <div id="nav-logo-icon" style="width:42px;height:42px;flex-shrink:0"></div>
+    <div>
+      <div class="nav-logo-text">أشكال الترف</div>
+      <div class="nav-logo-sub">للحديد الصناعي</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html"    data-page="home">الرئيسية</a></li>
+    <li><a href="about.html"   data-page="about">من نحن</a></li>
+    <li><a href="products.html" data-page="products">المنتجات</a></li>
+    <li><a href="articles.html" data-page="articles">المقالات</a></li>
+    <li><a href="contact.html" data-page="contact">تواصل معنا</a></li>
+  </ul>
+  <a href="contact.html" class="nav-cta">اطلب عرض سعر</a>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="القائمة">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MAIN -->
+<main id="main" class="page">
+
+  <div class="page-hero">
+    <div class="page-hero-grid"></div>
+    <h1>المقالات</h1>
+    <p>معلومات ونصائح ومعرفة من عالم الحديد الصناعي</p>
+  </div>
+
+  <div class="section">
+    <div class="articles-header">
+      <div style="color:var(--silver);font-size:.95rem" id="articles-count"></div>
+      <button class="btn-primary" onclick="openAddArticle()">✍️ إضافة مقال جديد</button>
+    </div>
+    <div id="articles-container"></div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">أشكال الترف</div>
+  <div class="footer-sub">للحديد الصناعي · تشاليح المدينة المنورة</div>
+  <ul class="footer-links">
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="about.html">من نحن</a></li>
+    <li><a href="products.html">المنتجات</a></li>
+    <li><a href="articles.html">المقالات</a></li>
+    <li><a href="contact.html">تواصل معنا</a></li>
+  </ul>
+  <div class="footer-divider"></div>
+  <div class="footer-bottom">© 2025 أشكال الترف للحديد الصناعي. جميع الحقوق محفوظة.</div>
+</footer>
+
+<!-- MODAL -->
+<div id="modal-overlay" onclick="overlayClick(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title"></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<div class="notif" id="notif"></div>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  document.getElementById('articles-count').textContent = articles.length + ' مقال متاح';
+
+  if (articles.length === 0) {
+    document.getElementById('articles-container').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">📝</div>
+        <p>لا توجد مقالات بعد</p>
+        <small>اضغط على "إضافة مقال جديد" لنشر أول مقال</small>
+      </div>`;
+  } else {
+    document.getElementById('articles-container').innerHTML =
+      `<div class="articles-grid">${articles.map(articleCardHTML).join('')}</div>`;
+  }
+</script>
+</body>
+</html>

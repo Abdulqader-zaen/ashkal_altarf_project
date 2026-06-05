@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>لوحة الإدارة | أشكال الترف</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #0c0e15;
+  --sidebar: #13161f;
+  --card:    #1a1d28;
+  --card2:   #1f2336;
+  --border:  rgba(255,255,255,.07);
+  --gold:    #c9a84c;
+  --gold-lt: #e8c97a;
+  --text:    #e8eaf2;
+  --muted:   #7a8a9f;
+  --danger:  #e05252;
+  --success: #2db86b;
+  --info:    #4a8cf7;
+  --r:       8px;
+  --sb:      240px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Tajawal',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh}
+a{text-decoration:none;color:inherit}
+input,textarea,select,button{font-family:'Tajawal',sans-serif}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(201,168,76,.2);border-radius:3px}
+
+/* ── LOGIN ── */
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#0c0e15,#1a1d28 50%,#0c0e15);padding:1rem}
+.login-card{background:var(--card);border:1px solid rgba(201,168,76,.2);border-radius:12px;
+  padding:3rem 2.5rem;width:100%;max-width:400px;text-align:center}
+.login-logo{width:70px;height:70px;margin:0 auto 1.5rem}
+.login-title{font-size:1.4rem;font-weight:800;color:var(--gold);margin-bottom:.3rem}
+.login-sub{font-size:.85rem;color:var(--muted);margin-bottom:2rem}
+.login-card input[type=password]{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.2);
+  border-radius:var(--r);padding:.85rem 1rem;color:var(--text);font-size:1rem;
+  transition:border-color .3s;margin-bottom:1rem}
+.login-card input:focus{outline:none;border-color:var(--gold)}
+.login-btn{width:100%;padding:.85rem;background:linear-gradient(135deg,var(--gold),var(--gold-lt));
+  color:#1a1a2e;border:none;border-radius:var(--r);font-size:1rem;font-weight:700;
+  cursor:pointer;transition:all .3s}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.35)}
+.login-error{color:var(--danger);font-size:.85rem;margin-top:.8rem;min-height:1.2rem}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.shake{animation:shake .35s ease}
+
+/* ── ADMIN LAYOUT ── */
+#admin-layout{display:none;min-height:100vh}
+#sidebar{
+  position:fixed;top:0;right:0;bottom:0;width:var(--sb);
+  background:var(--sidebar);border-left:1px solid var(--border);
+  display:flex;flex-direction:column;z-index:100;
+  transition:transform .3s}
+.sb-brand{padding:1.5rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.8rem}
+.sb-brand-text{font-size:1rem;font-weight:800;background:linear-gradient(135deg,var(--text),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sb-brand-sub{font-size:.65rem;color:var(--muted)}
+.sb-nav{flex:1;padding:1rem 0;overflow-y:auto}
+.sb-item{display:flex;align-items:center;gap:.8rem;padding:.75rem 1.4rem;cursor:pointer;
+  color:var(--muted);font-size:.95rem;font-weight:500;transition:all .25s;border-right:3px solid transparent}
+.sb-item:hover{color:var(--text);background:rgba(255,255,255,.04)}
+.sb-item.active{color:var(--gold);background:rgba(201,168,76,.08);border-right-color:var(--gold)}
+.sb-item-icon{font-size:1.1rem;flex-shrink:0;width:22px;text-align:center}
+.sb-divider{height:1px;background:var(--border);margin:.5rem 1.2rem}
+.sb-footer{padding:1rem 1.2rem}
+.sb-logout{display:flex;align-items:center;gap:.7rem;width:100%;padding:.7rem 1rem;
+  background:rgba(224,82,82,.1);border:1px solid rgba(224,82,82,.2);border-radius:var(--r);
+  color:var(--danger);font-family:'Tajawal',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .3s}
+.sb-logout:hover{background:rgba(224,82,82,.2)}
+
+#admin-content{margin-right:var(--sb);display:flex;flex-direction:column;min-height:100vh}
+#topbar{background:var(--card);border-bottom:1px solid var(--border);padding:.85rem 1.8rem;
+  display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.topbar-title{font-size:1.1rem;font-weight:700;color:var(--text)}
+.topbar-right{display:flex;align-items:center;gap:1rem}
+.topbar-badge{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.25);
+  color:var(--gold);padding:.25rem .8rem;border-radius:20px;font-size:.78rem}
+#ham-btn{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:4px;padding:8px;min-width:40px;min-height:40px;align-items:center;justify-content:center}
+#ham-btn span{display:block;width:20px;height:2px;background:var(--gold);border-radius:2px;transition:transform .3s,opacity .3s}
+#ham-btn.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+#ham-btn.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+#ham-btn.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+#admin-main{flex:1;padding:2rem 1.8rem}
+
+/* ── DASHBOARD ── */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.2rem;margin-bottom:2rem}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;right:0;left:0;height:2.5px;background:var(--accent, var(--gold))}
+.stat-val{font-size:2.5rem;font-weight:900;color:var(--text);line-height:1}
+.stat-label{font-size:.82rem;color:var(--muted);margin-top:.4rem}
+.stat-icon{position:absolute;bottom:.8rem;left:1rem;font-size:2rem;opacity:.12}
+
+/* ── TABLES ── */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.8rem}
+.section-title{font-size:1.15rem;font-weight:700;color:var(--text)}
+.tbl-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:1.5rem}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+thead th{background:var(--card2);padding:.85rem 1rem;text-align:right;color:var(--muted);font-weight:600;
+  font-size:.78rem;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+tbody td{padding:.85rem 1rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:rgba(255,255,255,.02)}
+.td-img{width:48px;height:36px;object-fit:cover;border-radius:4px;background:var(--card2)}
+.td-img-ph{width:48px;height:36px;background:var(--card2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1rem;opacity:.5}
+.td-stars{color:#fbbf24;letter-spacing:1px}
+.td-actions{display:flex;gap:.5rem}
+.act-btn{padding:.3rem .7rem;border-radius:4px;font-family:'Tajawal',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;border:1px solid;transition:all .2s}
+.act-edit{background:rgba(74,140,247,.1);border-color:rgba(74,140,247,.3);color:var(--info)}
+.act-edit:hover{background:rgba(74,140,247,.2)}
+.act-del{background:rgba(224,82,82,.1);border-color:rgba(224,82,82,.3);color:var(--danger)}
+.act-del:hover{background:rgba(224,82,82,.2)}
+.tag-pill{display:inline-block;padding:.15rem .6rem;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:10px;font-size:.75rem;color:var(--gold)}
+
+/* ── FORM FIELDS ── */
+.form-section{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;margin-bottom:1.2rem}
+.form-section-title{font-size:.95rem;font-weight:700;color:var(--gold);margin-bottom:1.2rem;padding-bottom:.8rem;border-bottom:1px solid var(--border)}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.8rem;color:var(--gold);letter-spacing:.8px;margin-bottom:.45rem}
+.field input,.field textarea,.field select{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.18);
+  border-radius:5px;padding:.7rem .9rem;color:var(--text);font-size:.9rem;transition:border-color .3s;resize:vertical}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.08)}
+.field input::placeholder,.field textarea::placeholder{color:rgba(138,155,176,.4)}
+.field select{cursor:pointer;appearance:none}
+.field select option{background:var(--card2)}
+.field-full{grid-column:1/-1}
+
+/* ── COVER IMAGE UPLOAD ── */
+.cover-zone{border:2px dashed rgba(201,168,76,.25);border-radius:var(--r);padding:1.5rem;
+  text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;margin-bottom:1rem}
+.cover-zone:hover{border-color:var(--gold);background:rgba(201,168,76,.03)}
+.cover-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;font-size:0}
+.cover-zone-icon{font-size:2rem;margin-bottom:.4rem;display:block}
+.cover-zone-text{font-size:.85rem;color:var(--muted)}
+#cover-preview{width:100%;height:180px;object-fit:cover;border-radius:6px;display:none;border:1px solid var(--border);margin-top:.8rem}
+
+/* ── BLOCK EDITOR ── */
+.blocks-wrap{display:flex;flex-direction:column;gap:.6rem}
+.block-item{background:var(--card2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;position:relative}
+.block-header{display:flex;align-items:center;justify-content:space-between;padding:.6rem .9rem;
+  background:rgba(255,255,255,.03);border-bottom:1px solid var(--border)}
+.block-type-badge{font-size:.72rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:.4rem}
+.block-controls{display:flex;gap:.3rem}
+.blk-btn{width:26px;height:26px;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:4px;
+  cursor:pointer;color:var(--muted);font-size:.75rem;transition:all .2s;line-height:1}
+.blk-btn:hover{background:rgba(255,255,255,.1);color:var(--text)}
+.blk-del:hover{background:rgba(224,82,82,.15);color:var(--danger);border-color:rgba(224,82,82,.3)}
+.block-body{padding:.9rem}
+.block-body textarea,.block-body input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:5px;padding:.65rem .8rem;color:var(--text);font-size:.9rem;resize:vertical;
+  transition:border-color .3s;min-height:80px}
+.block-body textarea:focus,.block-body input:focus{outline:none;border-color:var(--gold)}
+.block-body input{min-height:unset;height:auto;resize:none}
+.block-img-preview{width:100%;height:140px;object-fit:cover;border-radius:5px;display:none;margin-top:.5rem;border:1px solid var(--border)}
+.block-caption input{margin-top:.5rem;min-height:unset}
+
+.add-block-row{display:flex;gap:.5rem;justify-content:center;padding:.4rem 0}
+.add-blk-btn{display:flex;align-items:center;gap:.4rem;padding:.35rem .9rem;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;
+  color:var(--muted);font-family:'Tajawal',sans-serif;font-size:.78rem;cursor:pointer;transition:all .25s}
+.add-blk-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.06)}
+
+/* ── REVIEWS FORM ── */
+.stars-input{display:flex;gap:.4rem;margin-top:.4rem}
+.star-opt{font-size:1.4rem;cursor:pointer;filter:grayscale(1);transition:filter .2s;line-height:1}
+.star-opt.on{filter:none}
+
+/* ── SETTINGS ── */
+.settings-section{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;margin-bottom:1.2rem}
+.settings-title{font-size:1rem;font-weight:700;color:var(--gold);margin-bottom:1.2rem;padding-bottom:.7rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.6rem}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.4rem;border-radius:5px;
+  font-family:'Tajawal',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;border:none;transition:all .3s}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-lt));color:#1a1a2e}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(201,168,76,.35)}
+.btn-outline{background:transparent;border:1px solid rgba(201,168,76,.35);color:var(--gold)}
+.btn-outline:hover{background:rgba(201,168,76,.08)}
+.btn-danger{background:rgba(224,82,82,.12);border:1px solid rgba(224,82,82,.3);color:var(--danger)}
+.btn-danger:hover{background:rgba(224,82,82,.22)}
+.btn-sm{padding:.4rem .9rem;font-size:.82rem}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:1.8rem;left:50%;transform:translateX(-50%) translateY(100px);
+  padding:.75rem 2rem;border-radius:30px;font-weight:700;font-size:.88rem;z-index:9999;
+  transition:transform .4s cubic-bezier(.175,.885,.32,1.275);white-space:nowrap;pointer-events:none}
+#toast.show{transform:translateX(-50%) translateY(0)}
+#toast.t-success{background:var(--success);color:#fff}
+#toast.t-error{background:var(--danger);color:#fff}
+#toast.t-info{background:var(--info);color:#fff}
+
+/* ── CONFIRM DIALOG ── */
+#confirm-overlay{position:fixed;inset:0;z-index:8000;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center}
+#confirm-overlay.open{display:flex}
+.confirm-box{background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  padding:2rem;max-width:380px;width:calc(100% - 2rem);text-align:center}
+.confirm-msg{font-size:1rem;color:var(--text);margin-bottom:1.5rem;line-height:1.6}
+.confirm-btns{display:flex;gap:.8rem;justify-content:center}
+
+/* ── ARTICLE EDITOR TOP BAR ── */
+.editor-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem}
+.editor-back{display:flex;align-items:center;gap:.5rem;color:var(--muted);cursor:pointer;font-size:.9rem;background:none;border:none;font-family:'Tajawal',sans-serif;transition:color .25s}
+.editor-back:hover{color:var(--gold)}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:4rem 2rem;color:var(--muted)}
+.empty-icon{font-size:3rem;margin-bottom:1rem;opacity:.4}
+
+/* ── CHIP / STATUS ── */
+.chip{display:inline-block;padding:.18rem .65rem;border-radius:10px;font-size:.72rem;font-weight:700}
+.chip-yes{background:rgba(45,184,107,.15);color:var(--success)}
+.chip-no{background:rgba(122,138,159,.1);color:var(--muted)}
+
+/* ── SIDEBAR OVERLAY ── */
+#sb-overlay{
+  display:none;position:fixed;inset:0;z-index:99;
+  background:rgba(0,0,0,.6);backdrop-filter:blur(2px);
+}
+#sb-overlay.open{display:block}
+
+/* ── DASHBOARD TWO-COL GRID ── */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+
+/* ── TOUCH TARGETS ── */
+.sb-item{min-height:44px}
+.act-btn{min-height:36px;padding:.4rem .8rem}
+.btn{min-height:40px}
+
+/* ── RESPONSIVE – TABLET (≤900px) ── */
+@media(max-width:900px){
+  :root{--sb:200px}
+  #admin-main{padding:1.5rem 1.2rem}
+  .stat-grid{grid-template-columns:repeat(2,1fr);gap:.9rem}
+  .field-grid{grid-template-columns:1fr}
+  .field-full{grid-column:auto}
+  table{font-size:.82rem}
+  thead th{padding:.7rem .7rem}
+  tbody td{padding:.7rem .7rem}
+}
+
+/* ── RESPONSIVE – MOBILE (≤640px) ── */
+@media(max-width:640px){
+  :root{--sb:0px}
+
+  /* Sidebar: off-screen, slides in */
+  #sidebar{
+    position:fixed;top:0;right:0;bottom:0;
+    width:260px;z-index:200;
+    transform:translateX(110%);
+    transition:transform .3s cubic-bezier(.4,0,.2,1);
+    box-shadow:-4px 0 30px rgba(0,0,0,.5);
+  }
+  #sidebar.open{transform:translateX(0)}
+
+  #admin-content{margin-right:0}
+  #ham-btn{display:flex}
+  #topbar{padding:.8rem 1rem}
+
+  /* Reduce padding */
+  #admin-main{padding:1rem .9rem}
+
+  /* Dashboard: 2-col stats */
+  .stat-grid{grid-template-columns:repeat(2,1fr);gap:.8rem}
+  .stat-val{font-size:2rem}
+  .stat-card{padding:1.1rem}
+
+  /* Dashboard: stack panels */
+  .dash-grid{grid-template-columns:1fr!important}
+
+  /* Tables: horizontal scroll */
+  .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{min-width:520px}
+  thead th,tbody td{padding:.65rem .6rem;white-space:nowrap}
+  .td-actions{flex-direction:column;gap:.3rem}
+  .act-btn{font-size:.72rem;padding:.25rem .55rem}
+
+  /* Section header */
+  .section-header{flex-direction:column;align-items:flex-start;gap:.7rem}
+  .section-title{font-size:1rem}
+
+  /* Forms */
+  .field-grid{grid-template-columns:1fr!important}
+  .field-full{grid-column:auto!important}
+  .form-section{padding:1.1rem}
+  .form-section-title{font-size:.88rem}
+
+  /* Block editor */
+  .block-controls{gap:.2rem}
+  .blk-btn{width:24px;height:24px;font-size:.7rem}
+  .add-block-row{gap:.4rem}
+  .add-blk-btn{font-size:.72rem;padding:.28rem .65rem}
+
+  /* Editor topbar */
+  .editor-topbar{flex-direction:column;align-items:flex-start;gap:.8rem}
+  .editor-topbar > div{width:100%;display:flex;gap:.6rem}
+  .editor-topbar > div .btn{flex:1;justify-content:center;padding:.6rem .8rem;font-size:.85rem}
+
+  /* Buttons */
+  .btn{padding:.6rem 1rem;font-size:.85rem}
+  .btn-sm{padding:.38rem .75rem;font-size:.78rem}
+
+  /* Settings grids */
+  .settings-section > .field-grid{grid-template-columns:1fr!important}
+  .settings-section > div[style*="flex"]{flex-direction:column}
+
+  /* Modal: near-full screen */
+  #sb-overlay ~ div .modal-like,
+  [id^="modal"] .modal-inner,
+  [style*="max-width:520px"]{max-width:calc(100vw - 1.5rem)!important;width:calc(100vw - 1.5rem)!important}
+
+  /* Confirm box */
+  .confirm-box{padding:1.5rem 1.2rem}
+  .confirm-btns{flex-direction:column}
+  .confirm-btns .btn{width:100%;justify-content:center}
+
+  /* Toast */
+  #toast{width:calc(100vw - 2.5rem);text-align:center;font-size:.82rem;padding:.7rem 1rem}
+
+  /* Cover preview smaller */
+  #cover-preview{height:130px}
+  .block-img-preview{height:110px}
+
+  /* Stars input larger touch targets */
+  .star-opt{font-size:1.7rem}
+
+  /* Topbar badge */
+  .topbar-badge{font-size:.72rem;padding:.2rem .6rem}
+  .topbar-title{font-size:.95rem}
+}
+
+/* ── RESPONSIVE – SMALL MOBILE (≤380px) ── */
+@media(max-width:380px){
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .stat-val{font-size:1.8rem}
+  #admin-main{padding:.8rem .7rem}
+  .login-card{padding:2rem 1.4rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo" id="login-logo"></div>
+    <div class="login-title">لوحة الإدارة</div>
+    <div class="login-sub">أشكال الترف للحديد الصناعي</div>
+    <input type="password" id="pass-input" placeholder="كلمة المرور" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">دخول</button>
+    <div class="login-error" id="login-err"></div>
+  </div>
+</div>
+
+<!-- ===== ADMIN LAYOUT ===== -->
+<div id="admin-layout">
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <div class="sb-brand">
+      <div id="sb-logo" style="width:36px;height:36px;flex-shrink:0"></div>
+      <div><div class="sb-brand-text">أشكال الترف</div><div class="sb-brand-sub">لوحة الإدارة</div></div>
+    </div>
+    <nav class="sb-nav">
+      <div class="sb-item active" data-sec="dashboard" onclick="navigate('dashboard')">
+        <span class="sb-item-icon">🏠</span> لوحة التحكم
+      </div>
+      <div class="sb-item" data-sec="articles" onclick="navigate('articles')">
+        <span class="sb-item-icon">📰</span> المقالات
+      </div>
+      <div class="sb-item" data-sec="reviews" onclick="navigate('reviews')">
+        <span class="sb-item-icon">⭐</span> التقييمات
+      </div>
+      <div class="sb-item" data-sec="products" onclick="navigate('products')">
+        <span class="sb-item-icon">📦</span> المنتجات
+      </div>
+      <div class="sb-divider"></div>
+      <div class="sb-item" data-sec="settings" onclick="navigate('settings')">
+        <span class="sb-item-icon">⚙️</span> الإعدادات
+      </div>
+    </nav>
+    <div class="sb-footer">
+      <button class="sb-logout" onclick="doLogout()">
+        <span>🚪</span> تسجيل الخروج
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div id="admin-content">
+    <div id="topbar">
+      <div style="display:flex;align-items:center;gap:.8rem">
+        <button id="ham-btn" onclick="toggleSidebar()"><span></span><span></span><span></span></button>
+        <div class="topbar-title" id="topbar-title">لوحة التحكم</div>
+      </div>
+      <div class="topbar-right">
+        <a href="index.html" target="_blank" class="topbar-badge">🌐 عرض الموقع</a>
+      </div>
+    </div>
+    <div id="admin-main"></div>
+  </div>
+
+</div>
+
+<!-- ===== SIDEBAR OVERLAY ===== -->
+<div id="sb-overlay" onclick="closeSidebar()"></div>
+
+<!-- ===== CONFIRM ===== -->
+<div id="confirm-overlay">
+  <div class="confirm-box">
+    <div class="confirm-msg" id="confirm-msg"></div>
+    <div class="confirm-btns">
+      <button class="btn btn-danger" id="confirm-yes">تأكيد</button>
+      <button class="btn btn-outline" onclick="closeConfirm()">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div id="toast"></div>
+
+<!-- ===== JS ===== -->
+<script>
+/* =============================================
+   LOGO SVG
+============================================= */
+const LOGO_SVG = `<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="4" y="4" width="112" height="112" rx="4" stroke="url(#adlg1)" stroke-width="2"/>
+  <rect x="20" y="28" width="80" height="10" fill="url(#adlg2)"/>
+  <rect x="50" y="38" width="20" height="44" fill="url(#adlg2)"/>
+  <rect x="20" y="82" width="80" height="10" fill="url(#adlg2)"/>
+  <rect x="28" y="46" width="20" height="20" rx="1" stroke="url(#adlg2)" stroke-width="2.5" fill="none"/>
+  <line x1="10" y1="10" x2="18" y2="10" stroke="#c9a84c" stroke-width="1.5"/>
+  <line x1="10" y1="10" x2="10" y2="18" stroke="#c9a84c" stroke-width="1.5"/>
+  <line x1="110" y1="10" x2="102" y2="10" stroke="#c9a84c" stroke-width="1.5"/>
+  <line x1="110" y1="10" x2="110" y2="18" stroke="#c9a84c" stroke-width="1.5"/>
+  <line x1="10" y1="110" x2="18" y2="110" stroke="#c9a84c" stroke-width="1.5"/>
+  <line x1="10" y1="110" x2="10" y2="102" stroke="#c9a84c" stroke-width="1.5"/>
+  <line x1="110" y1="110" x2="102" y2="110" stroke="#c9a84c" stroke-width="1.5"/>
+  <line x1="110" y1="110" x2="110" y2="102" stroke="#c9a84c" stroke-width="1.5"/>
+  <defs>
+    <linearGradient id="adlg1" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#c9a84c"/><stop offset="1" stop-color="#8b6914"/>
+    </linearGradient>
+    <linearGradient id="adlg2" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#e8c97a"/><stop offset="1" stop-color="#c9a84c"/>
+    </linearGradient>
+  </defs>
+</svg>`;
+
+/* =============================================
+   STORAGE KEYS
+============================================= */
+const K = {
+  articles: 'altaraf_v1_articles',
+  reviews:  'altaraf_v1_reviews',
+  products: 'altaraf_v1_products',
+  settings: 'altaraf_v1_settings',
+  pass:     'altaraf_admin_pass',
+  session:  'altaraf_admin_session'
+};
+
+const DEFAULT_PASS = 'altaraf2025';
+
+/* =============================================
+   STORAGE HELPERS
+============================================= */
+const db = {
+  get: (k, def = null) => { try { const v = localStorage.getItem(K[k]); return v ? JSON.parse(v) : def; } catch { return def; } },
+  set: (k, v) => localStorage.setItem(K[k], JSON.stringify(v)),
+};
+
+/* =============================================
+   DEFAULT DATA
+============================================= */
+const DEFAULT_PRODUCTS = [
+  {id:'p1',name:'كمرة I مقاس 100×50 مم',cat:'كمرات',spec:'سماكة 5 مم · طول 6 متر',icon:'ibeam'},
+  {id:'p2',name:'كمرة I مقاس 150×75 مم',cat:'كمرات',spec:'سماكة 6.5 مم · طول 6-12 متر',icon:'ibeam'},
+  {id:'p3',name:'كمرة I مقاس 200×100 مم',cat:'كمرات',spec:'سماكة 8.5 مم · طول 6-12 متر',icon:'ibeam'},
+  {id:'p4',name:'كمرة I مقاس 250×125 مم',cat:'كمرات',spec:'سماكة 10 مم · طول 6-12 متر',icon:'ibeam'},
+  {id:'p5',name:'أنبوب مربع 40×40 مم',cat:'مربعات',spec:'سماكة 2-4 مم · طول 6 متر',icon:'square'},
+  {id:'p6',name:'أنبوب مربع 60×60 مم',cat:'مربعات',spec:'سماكة 2-5 مم · طول 6 متر',icon:'square'},
+  {id:'p7',name:'أنبوب مربع 80×80 مم',cat:'مربعات',spec:'سماكة 3-6 مم · طول 6 متر',icon:'square'},
+  {id:'p8',name:'أنبوب مربع 100×100 مم',cat:'مربعات',spec:'سماكة 3-6 مم · طول 6 متر',icon:'square'},
+  {id:'p9',name:'أنبوب مستطيل 60×40 مم',cat:'مستطيلات',spec:'سماكة 2-3 مم · طول 6 متر',icon:'rect'},
+  {id:'p10',name:'أنبوب مستطيل 80×40 مم',cat:'مستطيلات',spec:'سماكة 2-4 مم · طول 6 متر',icon:'rect'},
+  {id:'p11',name:'أنبوب مستطيل 100×50 مم',cat:'مستطيلات',spec:'سماكة 3-5 مم · طول 6 متر',icon:'rect'},
+  {id:'p12',name:'أنبوب مستطيل 120×60 مم',cat:'مستطيلات',spec:'سماكة 3-5 مم · طول 6 متر',icon:'rect'},
+  {id:'p13',name:'زاوية L 40×40×4 مم',cat:'زوايا',spec:'طول 6 متر · مجلفن أو عادي',icon:'angle'},
+  {id:'p14',name:'زاوية L 60×60×6 مم',cat:'زوايا',spec:'طول 6 متر · مجلفن أو عادي',icon:'angle'},
+  {id:'p15',name:'زاوية L 80×80×8 مم',cat:'زوايا',spec:'طول 6 متر · مجلفن أو عادي',icon:'angle'},
+  {id:'p16',name:'أنبوب دائري Ø48 مم',cat:'دائرية',spec:'سماكة 2-4 مم · طول 6 متر',icon:'round'},
+  {id:'p17',name:'أنبوب دائري Ø60 مم',cat:'دائرية',spec:'سماكة 2.5-5 مم · طول 6 متر',icon:'round'},
+  {id:'p18',name:'أنبوب دائري Ø76 مم',cat:'دائرية',spec:'سماكة 3-6 مم · طول 6 متر',icon:'round'},
+  {id:'p19',name:'لوح صلب 6 مم',cat:'ألواح',spec:'1000×2000 مم · صلب كربوني',icon:'sheet'},
+  {id:'p20',name:'لوح مشبك منقوش',cat:'ألواح',spec:'1000×2000 مم · مجلفن أو عادي',icon:'sheet'},
+];
+
+const DEFAULT_REVIEWS = [
+  {id:'r1',name:'محمد العتيبي',initial:'م',stars:5,text:'خدمة ممتازة وأسعار تنافسية. طلبت كمرات I وأنابيب مربعة لمشروع في العزيزية، وصلت في نفس اليوم.',date:'منذ شهر'},
+  {id:'r2',name:'عبدالرحمن الغامدي',initial:'ع',stars:5,text:'تعامل معهم منذ سنوات وما غيرت. جودة الحديد ممتازة والأسعار معقولة. التوصيل لحي شوران كان سريع.',date:'منذ 3 أشهر'},
+  {id:'r3',name:'خالد المطيري',initial:'خ',stars:5,text:'طلبت كميات كبيرة لمشروع إنشائي في الجموم. الموظفين كانوا متعاونين جداً في تحديد المقاسات المناسبة.',date:'منذ أسبوعين'},
+  {id:'r4',name:'سعد الحربي',initial:'س',stars:5,text:'أفضل محل حديد في تشاليح المدينة. عندهم كل المقاسات جاهزة ولا يحتاجون أن تنتظر.',date:'منذ شهرين'},
+  {id:'r5',name:'فهد الرشيدي',initial:'ف',stars:5,text:'تعاملت معهم لمشروع مستودع في الحرة الغربية. أبدعوا في التوريد والالتزام بالمواعيد.',date:'منذ 5 أشهر'},
+  {id:'r6',name:'أحمد البلوي',initial:'أ',stars:5,text:'احتجت حديد بشكل عاجل للمشروع وما خذلوني. وصل الطلب في أقل من ساعتين لحي السلام.',date:'منذ 3 أسابيع'},
+];
+
+/* =============================================
+   STATE
+============================================= */
+let section = 'dashboard';
+let editingId = null;
+let articleBlocks = [];
+let confirmCb = null;
+let starRating = 5;
+
+/* =============================================
+   AUTH
+============================================= */
+function getPass() { return localStorage.getItem(K.pass) || DEFAULT_PASS; }
+function isLoggedIn() { return sessionStorage.getItem(K.session) === '1'; }
+function doLogin() {
+  const v = document.getElementById('pass-input').value;
+  if (v === getPass()) {
+    sessionStorage.setItem(K.session, '1');
+    showAdmin();
+  } else {
+    const card = document.querySelector('.login-card');
+    card.classList.add('shake');
+    setTimeout(() => card.classList.remove('shake'), 400);
+    document.getElementById('login-err').textContent = 'كلمة المرور غير صحيحة';
+    setTimeout(() => document.getElementById('login-err').textContent = '', 2500);
+  }
+}
+function doLogout() {
+  sessionStorage.removeItem(K.session);
+  location.reload();
+}
+function showAdmin() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('admin-layout').style.display = 'flex';
+  document.getElementById('login-logo').innerHTML = LOGO_SVG;
+  document.getElementById('sb-logo').innerHTML = LOGO_SVG;
+  navigate('dashboard');
+}
+
+/* =============================================
+   NAVIGATION
+============================================= */
+const TITLES = {dashboard:'لوحة التحكم',articles:'المقالات','article-edit':'محرر المقالات',
+  reviews:'التقييمات',products:'المنتجات',settings:'الإعدادات'};
+
+function navigate(s, id = null) {
+  section = s; editingId = id;
+  if (window.innerWidth <= 640) closeSidebar();
+  document.querySelectorAll('.sb-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.sec === s.split('-')[0]);
+  });
+  document.getElementById('topbar-title').textContent = TITLES[s] || s;
+  const m = document.getElementById('admin-main');
+  m.style.opacity = '0';
+  setTimeout(() => {
+    if      (s === 'dashboard')    m.innerHTML = renderDashboard();
+    else if (s === 'articles')     m.innerHTML = renderArticlesList();
+    else if (s === 'article-edit') { m.innerHTML = renderArticleEditor(id); initEditorEvents(); }
+    else if (s === 'reviews')      m.innerHTML = renderReviewsList();
+    else if (s === 'products')     m.innerHTML = renderProductsList();
+    else if (s === 'settings')     m.innerHTML = renderSettings();
+    m.style.transition = 'opacity .3s'; m.style.opacity = '1';
+  }, 150);
+}
+function toggleSidebar() {
+  const sb  = document.getElementById('sidebar');
+  const ov  = document.getElementById('sb-overlay');
+  const ham = document.getElementById('ham-btn');
+  const isOpen = sb.classList.toggle('open');
+  ov.classList.toggle('open', isOpen);
+  ham.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sb-overlay').classList.remove('open');
+  document.getElementById('ham-btn').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* =============================================
+   DASHBOARD
+============================================= */
+function renderDashboard() {
+  const arts  = db.get('articles', []);
+  const revs  = db.get('reviews',  DEFAULT_REVIEWS);
+  const prods = db.get('products', DEFAULT_PRODUCTS);
+  const sets  = db.get('settings', {});
+  return `
+  <div class="stat-grid">
+    <div class="stat-card" style="--accent:var(--gold)">
+      <div class="stat-val">${arts.length}</div>
+      <div class="stat-label">مقال منشور</div>
+      <div class="stat-icon">📰</div>
+    </div>
+    <div class="stat-card" style="--accent:#fbbf24">
+      <div class="stat-val">${revs.length}</div>
+      <div class="stat-label">تقييم</div>
+      <div class="stat-icon">⭐</div>
+    </div>
+    <div class="stat-card" style="--accent:var(--success)">
+      <div class="stat-val">${prods.length}</div>
+      <div class="stat-label">منتج</div>
+      <div class="stat-icon">📦</div>
+    </div>
+    <div class="stat-card" style="--accent:var(--info)">
+      <div class="stat-val">${sets.phone1 ? '✓' : '!'}</div>
+      <div class="stat-label">الإعدادات</div>
+      <div class="stat-icon">⚙️</div>
+    </div>
+  </div>
+
+  <div class="dash-grid">
+    <div>
+      <div class="section-header">
+        <div class="section-title">آخر المقالات</div>
+        <button class="btn btn-gold btn-sm" onclick="navigate('article-edit')">+ مقال جديد</button>
+      </div>
+      ${arts.length === 0 ? `<div class="empty"><div class="empty-icon">📰</div><div>لا توجد مقالات</div></div>` : `
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>العنوان</th><th>التصنيف</th><th>التاريخ</th><th></th></tr></thead>
+          <tbody>
+            ${arts.slice(0,5).map(a => `<tr>
+              <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${a.title}</td>
+              <td><span class="tag-pill">${a.tag}</span></td>
+              <td style="color:var(--muted);font-size:.82rem">${a.date}</td>
+              <td><button class="act-btn act-edit" onclick="navigate('article-edit',${a.id})">تعديل</button></td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`}
+    </div>
+    <div>
+      <div class="section-header">
+        <div class="section-title">آخر التقييمات</div>
+        <button class="btn btn-gold btn-sm" onclick="navigate('reviews')">+ تقييم</button>
+      </div>
+      ${revs.length === 0 ? `<div class="empty"><div class="empty-icon">⭐</div><div>لا توجد تقييمات</div></div>` : `
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>الاسم</th><th>النجوم</th><th>التاريخ</th></tr></thead>
+          <tbody>
+            ${revs.slice(0,5).map(r => `<tr>
+              <td>${r.name}</td>
+              <td class="td-stars">${'★'.repeat(r.stars)}</td>
+              <td style="color:var(--muted);font-size:.82rem">${r.date}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`}
+    </div>
+  </div>`;
+}
+
+/* =============================================
+   ARTICLES LIST
+============================================= */
+function renderArticlesList() {
+  const arts = db.get('articles', []);
+  return `
+  <div class="section-header">
+    <div class="section-title">المقالات (${arts.length})</div>
+    <button class="btn btn-gold" onclick="navigate('article-edit')">✏️ مقال جديد</button>
+  </div>
+  ${arts.length === 0 ? `<div class="empty"><div class="empty-icon">📰</div><p>لا توجد مقالات بعد</p></div>` : `
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>صورة</th><th>العنوان</th><th>التصنيف</th><th>الكاتب</th><th>التاريخ</th><th>بلوكات</th><th>الإجراءات</th></tr></thead>
+      <tbody>
+        ${arts.map(a => {
+          const cover = a.coverImage || a.image || null;
+          const blkCount = a.blocks ? a.blocks.length : '-';
+          return `<tr>
+            <td>${cover ? `<img class="td-img" src="${cover}">` : `<div class="td-img-ph">📰</div>`}</td>
+            <td style="max-width:220px"><div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600">${a.title}</div></td>
+            <td><span class="tag-pill">${a.tag}</span></td>
+            <td style="color:var(--muted);font-size:.82rem">${a.author || '—'}</td>
+            <td style="color:var(--muted);font-size:.82rem">${a.date}</td>
+            <td style="color:var(--muted);font-size:.82rem;text-align:center">${blkCount}</td>
+            <td><div class="td-actions">
+              <button class="act-btn act-edit" onclick="navigate('article-edit',${a.id})">تعديل</button>
+              <button class="act-btn act-del" onclick="deleteArticle(${a.id})">حذف</button>
+            </div></td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  </div>`}`;
+}
+
+/* =============================================
+   ARTICLE EDITOR (block-based)
+============================================= */
+function renderArticleEditor(id) {
+  const arts = db.get('articles', []);
+  const a    = id ? arts.find(x => x.id === id) : null;
+
+  // load blocks into state
+  articleBlocks = a && a.blocks ? JSON.parse(JSON.stringify(a.blocks)) : [
+    { type: 'paragraph', content: '' }
+  ];
+
+  const cover = a ? (a.coverImage || a.image || null) : null;
+
+  return `
+  <div class="editor-topbar">
+    <button class="editor-back" onclick="navigate('articles')">← العودة للمقالات</button>
+    <div style="display:flex;gap:.7rem">
+      <button class="btn btn-outline" onclick="navigate('articles')">إلغاء</button>
+      <button class="btn btn-gold" onclick="saveArticle()">💾 حفظ ونشر</button>
+    </div>
+  </div>
+
+  <!-- META -->
+  <div class="form-section">
+    <div class="form-section-title">معلومات المقال</div>
+    <div class="field-grid">
+      <div class="field field-full">
+        <label>عنوان المقال *</label>
+        <input type="text" id="e-title" placeholder="عنوان جذاب وواضح..." value="${a ? esc(a.title) : ''}">
+      </div>
+      <div class="field field-full">
+        <label>مقتطف (يظهر في بطاقة المقال) *</label>
+        <textarea id="e-excerpt" rows="2" placeholder="وصف مختصر 1-2 جملة...">${a ? esc(a.excerpt) : ''}</textarea>
+      </div>
+      <div class="field">
+        <label>التصنيف / الوسم *</label>
+        <input type="text" id="e-tag" placeholder="مثال: كمرات، أنابيب..." value="${a ? esc(a.tag) : ''}">
+      </div>
+      <div class="field">
+        <label>الكاتب</label>
+        <input type="text" id="e-author" value="${a ? esc(a.author || '') : 'فريق أشكال الترف'}">
+      </div>
+      <div class="field">
+        <label>التاريخ</label>
+        <input type="date" id="e-date" value="${a ? a.date : new Date().toISOString().split('T')[0]}">
+      </div>
+      <div class="field">
+        <label>وصف SEO (اختياري)</label>
+        <input type="text" id="e-seo" placeholder="وصف للبحث..." value="${a ? esc(a.metaDesc || '') : ''}">
+      </div>
+    </div>
+  </div>
+
+  <!-- COVER IMAGE -->
+  <div class="form-section">
+    <div class="form-section-title">🖼️ صورة الغلاف الرئيسية</div>
+    <div class="cover-zone" id="cover-zone">
+      <input type="file" id="cover-input" accept="image/*">
+      <span class="cover-zone-icon">📷</span>
+      <div class="cover-zone-text">اضغط أو اسحب صورة الغلاف هنا (JPG · PNG · WEBP)</div>
+    </div>
+    <img id="cover-preview" src="${cover || ''}" style="${cover ? 'display:block' : 'display:none'}">
+    ${cover ? `<button class="btn btn-danger btn-sm" style="margin-top:.5rem" onclick="removeCover()">🗑️ حذف الغلاف</button>` : ''}
+  </div>
+
+  <!-- BLOCK EDITOR -->
+  <div class="form-section">
+    <div class="form-section-title" style="display:flex;align-items:center;justify-content:space-between">
+      <span>✍️ محتوى المقال (بلوكات)</span>
+      <span style="font-size:.78rem;color:var(--muted)">${articleBlocks.length} بلوك</span>
+    </div>
+    <div id="blocks-container">${renderAllBlocks()}</div>
+    <div class="add-block-row" style="margin-top:.8rem;justify-content:flex-start;flex-wrap:wrap">
+      <span style="font-size:.78rem;color:var(--muted);margin-left:.5rem">إضافة بلوك:</span>
+      <button class="add-blk-btn" onclick="addBlock('paragraph')">📝 نص</button>
+      <button class="add-blk-btn" onclick="addBlock('heading')">🔤 عنوان</button>
+      <button class="add-blk-btn" onclick="addBlock('image')">🖼️ صورة</button>
+      <button class="add-blk-btn" onclick="addBlock('quote')">💬 اقتباس</button>
+      <button class="add-blk-btn" onclick="addBlock('list')">📋 قائمة</button>
+      <button class="add-blk-btn" onclick="addBlock('divider')">➖ فاصل</button>
+    </div>
+  </div>`;
+}
+
+function renderAllBlocks() {
+  if (articleBlocks.length === 0) return `<div class="empty" style="padding:2rem"><div class="empty-icon" style="font-size:2rem">📝</div><div>لا يوجد محتوى — أضف بلوك أدناه</div></div>`;
+  return articleBlocks.map((b, i) => renderBlock(b, i)).join('');
+}
+
+function renderBlock(b, i) {
+  const controls = `
+    <div class="block-controls">
+      ${i > 0 ? `<button class="blk-btn" onclick="moveBlock(${i},-1)" title="أعلى">↑</button>` : ''}
+      ${i < articleBlocks.length - 1 ? `<button class="blk-btn" onclick="moveBlock(${i},1)" title="أسفل">↓</button>` : ''}
+      <button class="blk-btn blk-del" onclick="deleteBlock(${i})" title="حذف">✕</button>
+    </div>`;
+
+  const typeLabels = {paragraph:'📝 نص',heading:'🔤 عنوان',image:'🖼️ صورة',quote:'💬 اقتباس',list:'📋 قائمة',divider:'➖ فاصل'};
+
+  let body = '';
+  if (b.type === 'paragraph') {
+    body = `<textarea data-blk="${i}" data-field="content" rows="4" placeholder="اكتب نص الفقرة هنا..." oninput="syncBlock(${i},'content',this.value)">${esc(b.content||'')}</textarea>`;
+  } else if (b.type === 'heading') {
+    body = `
+      <div style="display:flex;gap:.6rem;margin-bottom:.5rem">
+        <select data-blk="${i}" data-field="level" onchange="syncBlock(${i},'level',this.value)" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:.3rem .6rem;color:var(--text);font-size:.82rem">
+          <option value="2" ${b.level==2?'selected':''}>H2 – عنوان رئيسي</option>
+          <option value="3" ${b.level==3?'selected':''}>H3 – عنوان فرعي</option>
+        </select>
+      </div>
+      <input type="text" data-blk="${i}" data-field="content" placeholder="نص العنوان..." value="${esc(b.content||'')}" oninput="syncBlock(${i},'content',this.value)">`;
+  } else if (b.type === 'image') {
+    body = `
+      <div class="cover-zone" style="margin-bottom:.5rem" onclick="triggerImgUpload(${i})">
+        <input type="file" id="blk-img-${i}" accept="image/*" style="position:absolute;inset:0;opacity:0;cursor:pointer" onchange="handleBlockImg(${i},this)">
+        <span class="cover-zone-icon" style="font-size:1.5rem">🖼️</span>
+        <div class="cover-zone-text" style="font-size:.8rem">اضغط لاختيار صورة</div>
+      </div>
+      <img id="blk-img-preview-${i}" class="block-img-preview" src="${b.src||''}" style="${b.src?'display:block':'display:none'}">
+      <div class="block-caption">
+        <input type="text" data-blk="${i}" data-field="caption" placeholder="تسمية توضيحية للصورة (اختياري)" value="${esc(b.caption||'')}" oninput="syncBlock(${i},'caption',this.value)">
+      </div>`;
+  } else if (b.type === 'quote') {
+    body = `<textarea data-blk="${i}" data-field="content" rows="3" placeholder="نص الاقتباس..." oninput="syncBlock(${i},'content',this.value)">${esc(b.content||'')}</textarea>`;
+  } else if (b.type === 'list') {
+    body = `<textarea data-blk="${i}" data-field="items" rows="4" placeholder="بند واحد في كل سطر..." oninput="syncBlock(${i},'items',this.value)">${esc(Array.isArray(b.items)?b.items.join('\n'):(b.items||''))}</textarea>
+    <div style="font-size:.75rem;color:var(--muted);margin-top:.3rem">* اكتب كل بند في سطر منفصل</div>`;
+  } else if (b.type === 'divider') {
+    body = `<div style="height:2px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.3),transparent);border-radius:1px"></div>`;
+  }
+
+  return `<div class="block-item" data-idx="${i}">
+    <div class="block-header">
+      <div class="block-type-badge">${typeLabels[b.type]||b.type}</div>
+      ${controls}
+    </div>
+    <div class="block-body">${body}</div>
+  </div>`;
+}
+
+function initEditorEvents() {
+  const ci = document.getElementById('cover-input');
+  const cp = document.getElementById('cover-preview');
+  const cz = document.getElementById('cover-zone');
+  if (ci) ci.addEventListener('change', function() {
+    if (!this.files[0]) return;
+    if (this.files[0].size > 6*1024*1024) { showToast('حجم الصورة أكبر من 6 ميجا','error'); return; }
+    const r = new FileReader();
+    r.onload = e => { cp.src = e.target.result; cp.style.display = 'block'; if(cz) cz.style.borderColor='var(--gold)'; };
+    r.readAsDataURL(this.files[0]);
+  });
+}
+
+function syncBlock(idx, field, val) {
+  if (!articleBlocks[idx]) return;
+  articleBlocks[idx][field] = val;
+}
+
+function addBlock(type) {
+  const blk = {type};
+  if (type==='paragraph') blk.content='';
+  else if (type==='heading') {blk.content=''; blk.level=2;}
+  else if (type==='image') {blk.src=''; blk.caption='';}
+  else if (type==='quote') blk.content='';
+  else if (type==='list') blk.items='';
+  articleBlocks.push(blk);
+  refreshBlocks();
+}
+
+function moveBlock(idx, dir) {
+  const ni = idx + dir;
+  if (ni < 0 || ni >= articleBlocks.length) return;
+  [articleBlocks[idx], articleBlocks[ni]] = [articleBlocks[ni], articleBlocks[idx]];
+  refreshBlocks();
+}
+
+function deleteBlock(idx) {
+  articleBlocks.splice(idx, 1);
+  refreshBlocks();
+}
+
+function refreshBlocks() {
+  const c = document.getElementById('blocks-container');
+  if (c) { c.innerHTML = renderAllBlocks(); initEditorEvents(); }
+}
+
+function triggerImgUpload(idx) {
+  const el = document.getElementById(`blk-img-${idx}`);
+  if (el) el.click();
+}
+
+function handleBlockImg(idx, inp) {
+  if (!inp.files[0]) return;
+  if (inp.files[0].size > 6*1024*1024) { showToast('الصورة أكبر من 6 ميجا','error'); return; }
+  const r = new FileReader();
+  r.onload = e => {
+    articleBlocks[idx].src = e.target.result;
+    const prev = document.getElementById(`blk-img-preview-${idx}`);
+    if (prev) { prev.src = e.target.result; prev.style.display = 'block'; }
+  };
+  r.readAsDataURL(inp.files[0]);
+}
+
+function removeCover() {
+  const cp = document.getElementById('cover-preview');
+  if (cp) { cp.src = ''; cp.style.display = 'none'; }
+}
+
+function saveArticle() {
+  const title   = document.getElementById('e-title')?.value?.trim();
+  const excerpt = document.getElementById('e-excerpt')?.value?.trim();
+  const tag     = document.getElementById('e-tag')?.value?.trim();
+  const author  = document.getElementById('e-author')?.value?.trim() || 'فريق أشكال الترف';
+  const date    = document.getElementById('e-date')?.value || new Date().toISOString().split('T')[0];
+  const seo     = document.getElementById('e-seo')?.value?.trim() || '';
+  const cover   = document.getElementById('cover-preview');
+  const coverImg = (cover && cover.style.display !== 'none' && cover.src.startsWith('data:')) ? cover.src : null;
+
+  if (!title || !excerpt || !tag) { showToast('يرجى ملء الحقول الإلزامية (*)','error'); return; }
+
+  // Build plain text content from blocks for backwards compat
+  const plainContent = articleBlocks.filter(b => ['paragraph','quote','heading'].includes(b.type))
+    .map(b => b.content || '').join('\n\n');
+
+  // Process list blocks (items as string → array)
+  const processedBlocks = articleBlocks.map(b => {
+    if (b.type === 'list' && typeof b.items === 'string') {
+      return {...b, items: b.items.split('\n').filter(l => l.trim())};
+    }
+    return b;
+  });
+
+  let arts = db.get('articles', []);
+  if (editingId) {
+    arts = arts.map(a => a.id === editingId ? {
+      ...a, title, excerpt, tag, author, date, metaDesc: seo,
+      coverImage: coverImg, blocks: processedBlocks, content: plainContent
+    } : a);
+  } else {
+    arts.unshift({ id: Date.now(), title, excerpt, tag, author, date, metaDesc: seo,
+      coverImage: coverImg, blocks: processedBlocks, content: plainContent, image: coverImg });
+  }
+  db.set('articles', arts);
+  showToast('✅ تم حفظ المقال بنجاح');
+  navigate('articles');
+}
+
+function deleteArticle(id) {
+  askConfirm('هل تريد حذف هذا المقال؟', () => {
+    let arts = db.get('articles', []).filter(a => a.id !== id);
+    db.set('articles', arts);
+    showToast('🗑️ تم الحذف');
+    navigate('articles');
+  });
+}
+
+/* =============================================
+   REVIEWS
+============================================= */
+function renderReviewsList() {
+  const revs = db.get('reviews', DEFAULT_REVIEWS);
+  return `
+  <div class="section-header">
+    <div class="section-title">التقييمات (${revs.length})</div>
+    <button class="btn btn-gold" onclick="openReviewEditor(null)">⭐ إضافة تقييم</button>
+  </div>
+  ${revs.length === 0 ? `<div class="empty"><div class="empty-icon">⭐</div><p>لا توجد تقييمات</p></div>` : `
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>الاسم</th><th>الحرف</th><th>النجوم</th><th>النص</th><th>التاريخ</th><th>الإجراءات</th></tr></thead>
+      <tbody>
+        ${revs.map(r => `<tr>
+          <td style="font-weight:600">${r.name}</td>
+          <td><div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--smoke,#2d3561));display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#1a1a2e">${r.initial||r.name[0]}</div></td>
+          <td class="td-stars">${'★'.repeat(r.stars||5)}</td>
+          <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:.82rem">${r.text}</td>
+          <td style="color:var(--muted);font-size:.82rem">${r.date}</td>
+          <td><div class="td-actions">
+            <button class="act-btn act-edit" onclick="openReviewEditor('${r.id}')">تعديل</button>
+            <button class="act-btn act-del" onclick="deleteReview('${r.id}')">حذف</button>
+          </div></td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+  </div>`}`;
+}
+
+function openReviewEditor(id) {
+  const revs = db.get('reviews', DEFAULT_REVIEWS);
+  const r    = id ? revs.find(x => x.id === id) : null;
+  starRating  = r ? (r.stars || 5) : 5;
+
+  const form = `
+    <div style="padding:1.5rem;display:flex;flex-direction:column;gap:1rem">
+      <div class="field"><label>الاسم *</label><input type="text" id="rv-name" value="${r?esc(r.name):''}"></div>
+      <div class="field"><label>الحرف الأول (للأفاتار)</label><input type="text" id="rv-init" maxlength="2" value="${r?esc(r.initial||r.name[0]):''}"></div>
+      <div class="field">
+        <label>التقييم</label>
+        <div class="stars-input" id="stars-row">
+          ${[1,2,3,4,5].map(n => `<span class="star-opt ${n<=starRating?'on':''}" onclick="setStars(${n})">★</span>`).join('')}
+        </div>
+        <input type="hidden" id="rv-stars" value="${starRating}">
+      </div>
+      <div class="field"><label>نص التقييم *</label><textarea id="rv-text" rows="4">${r?esc(r.text):''}</textarea></div>
+      <div class="field"><label>التاريخ (مثال: منذ أسبوع)</label><input type="text" id="rv-date" value="${r?esc(r.date):'منذ أسبوع'}"></div>
+      <div style="display:flex;gap:.8rem;justify-content:flex-end">
+        <button class="btn btn-gold" onclick="saveReview('${id||''}')">حفظ التقييم</button>
+        <button class="btn btn-outline" onclick="closeModal()">إلغاء</button>
+      </div>
+    </div>`;
+  openModal(r ? 'تعديل تقييم' : 'إضافة تقييم جديد', form);
+}
+
+function setStars(n) {
+  starRating = n;
+  document.querySelectorAll('.star-opt').forEach((el, i) => el.classList.toggle('on', i < n));
+  const si = document.getElementById('rv-stars');
+  if (si) si.value = n;
+}
+
+function saveReview(id) {
+  const name = document.getElementById('rv-name')?.value?.trim();
+  const init = document.getElementById('rv-init')?.value?.trim();
+  const text = document.getElementById('rv-text')?.value?.trim();
+  const date = document.getElementById('rv-date')?.value?.trim() || 'منذ فترة';
+  const stars = parseInt(document.getElementById('rv-stars')?.value || '5');
+  if (!name || !text) { showToast('يرجى ملء الاسم والنص','error'); return; }
+  let revs = db.get('reviews', DEFAULT_REVIEWS);
+  if (id) {
+    revs = revs.map(r => r.id === id ? {...r, name, initial: init||name[0], text, date, stars} : r);
+  } else {
+    revs.push({ id: 'r'+Date.now(), name, initial: init||name[0], text, date, stars });
+  }
+  db.set('reviews', revs);
+  closeModal();
+  showToast('✅ تم حفظ التقييم');
+  navigate('reviews');
+}
+
+function deleteReview(id) {
+  askConfirm('حذف هذا التقييم؟', () => {
+    db.set('reviews', db.get('reviews', DEFAULT_REVIEWS).filter(r => r.id !== id));
+    showToast('🗑️ تم الحذف');
+    navigate('reviews');
+  });
+}
+
+/* =============================================
+   PRODUCTS
+============================================= */
+function renderProductsList() {
+  const prods = db.get('products', DEFAULT_PRODUCTS);
+  const cats  = [...new Set(prods.map(p => p.cat))];
+  return `
+  <div class="section-header">
+    <div class="section-title">المنتجات (${prods.length})</div>
+    <div style="display:flex;gap:.7rem">
+      <button class="btn btn-outline btn-sm" onclick="resetProducts()" title="إعادة ضبط للقائمة الأصلية">↺ إعادة ضبط</button>
+      <button class="btn btn-gold" onclick="openProductEditor(null)">+ منتج جديد</button>
+    </div>
+  </div>
+  ${cats.map(cat => `
+    <div style="margin-bottom:.4rem;font-size:.8rem;color:var(--muted);letter-spacing:1px;text-transform:uppercase;padding-right:.2rem">${cat}</div>
+    <div class="tbl-wrap" style="margin-bottom:1.2rem">
+      <table>
+        <thead><tr><th>صورة</th><th>الاسم</th><th>المواصفات</th><th>الإجراءات</th></tr></thead>
+        <tbody>
+          ${prods.filter(p=>p.cat===cat).map(p => `<tr>
+            <td>${p.image ? `<img class="td-img" src="${p.image}">` : `<div class="td-img-ph">📦</div>`}</td>
+            <td style="font-weight:600">${p.name}</td>
+            <td style="color:var(--muted);font-size:.82rem">${p.spec}</td>
+            <td><div class="td-actions">
+              <button class="act-btn act-edit" onclick="openProductEditor('${p.id}')">تعديل</button>
+              <button class="act-btn act-del" onclick="deleteProduct('${p.id}')">حذف</button>
+            </div></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`).join('')}`;
+}
+
+function openProductEditor(id) {
+  const prods = db.get('products', DEFAULT_PRODUCTS);
+  const p     = id ? prods.find(x => x.id === id) : null;
+  const iconOpts = ['ibeam','square','rect','angle','round','sheet'].map(v =>
+    `<option value="${v}" ${p&&p.icon===v?'selected':''}>${v}</option>`).join('');
+  const catOpts = ['كمرات','مربعات','مستطيلات','زوايا','دائرية','ألواح'].map(v =>
+    `<option value="${v}" ${p&&p.cat===v?'selected':''}>${v}</option>`).join('');
+  const hasImg = p && p.image;
+
+  openModal(p ? 'تعديل منتج' : 'إضافة منتج', `
+    <div style="padding:1.5rem;display:flex;flex-direction:column;gap:1rem">
+      <div class="field"><label>اسم المنتج *</label><input id="pd-name" type="text" value="${p?esc(p.name):''}"></div>
+      <div class="field"><label>الفئة *</label><select id="pd-cat">${catOpts}</select></div>
+      <div class="field"><label>المواصفات *</label><input id="pd-spec" type="text" value="${p?esc(p.spec):''}"></div>
+      <div class="field"><label>الأيقونة (احتياطي إذا لم تُرفع صورة)</label><select id="pd-icon">${iconOpts}</select></div>
+
+      <!-- IMAGE UPLOAD -->
+      <div class="field">
+        <label>صورة المنتج</label>
+        <div class="cover-zone" id="pd-img-zone" style="margin-top:.3rem">
+          <input type="file" id="pd-img-input" accept="image/*">
+          <span class="cover-zone-icon">📷</span>
+          <div class="cover-zone-text">اضغط أو اسحب صورة المنتج (JPG · PNG · WEBP)</div>
+        </div>
+        <img id="pd-img-preview" src="${hasImg?p.image:''}"
+          style="width:100%;height:160px;object-fit:cover;border-radius:6px;border:1px solid var(--border);margin-top:.6rem;${hasImg?'display:block':'display:none'}">
+        ${hasImg?`<button class="btn btn-danger btn-sm" style="margin-top:.4rem" onclick="removeProdImg()">🗑️ حذف الصورة</button>`:''}
+      </div>
+
+      <div style="display:flex;gap:.8rem;justify-content:flex-end">
+        <button class="btn btn-gold" onclick="saveProduct('${id||''}')">حفظ المنتج</button>
+        <button class="btn btn-outline" onclick="closeModal()">إلغاء</button>
+      </div>
+    </div>`);
+
+  /* wire up file input after modal renders */
+  setTimeout(() => {
+    const inp  = document.getElementById('pd-img-input');
+    const prev = document.getElementById('pd-img-preview');
+    const zone = document.getElementById('pd-img-zone');
+    if (inp) inp.addEventListener('change', function() {
+      if (!this.files[0]) return;
+      if (this.files[0].size > 8*1024*1024) { showToast('حجم الصورة أكبر من 8 ميجا','error'); return; }
+      const r = new FileReader();
+      r.onload = e => {
+        prev.src = e.target.result;
+        prev.style.display = 'block';
+        zone.style.borderColor = 'var(--gold)';
+      };
+      r.readAsDataURL(this.files[0]);
+    });
+  }, 80);
+}
+
+function removeProdImg() {
+  const prev = document.getElementById('pd-img-preview');
+  const zone = document.getElementById('pd-img-zone');
+  if (prev) { prev.src = ''; prev.style.display = 'none'; }
+  if (zone) zone.style.borderColor = '';
+}
+
+function saveProduct(id) {
+  const name = document.getElementById('pd-name')?.value?.trim();
+  const cat  = document.getElementById('pd-cat')?.value;
+  const spec = document.getElementById('pd-spec')?.value?.trim();
+  const icon = document.getElementById('pd-icon')?.value;
+  const prev = document.getElementById('pd-img-preview');
+  const image = (prev && prev.style.display !== 'none' && prev.src && prev.src.startsWith('data:')) ? prev.src : null;
+  if (!name || !cat || !spec) { showToast('يرجى ملء الحقول','error'); return; }
+  let prods = db.get('products', DEFAULT_PRODUCTS);
+  if (id) {
+    prods = prods.map(p => p.id === id ? {...p, name, cat, spec, icon, image: image ?? p.image ?? null} : p);
+  } else {
+    prods.push({ id: 'p'+Date.now(), name, cat, spec, icon: icon||'square', image: image||null });
+  }
+  db.set('products', prods);
+  closeModal();
+  showToast('✅ تم حفظ المنتج');
+  navigate('products');
+}
+
+function deleteProduct(id) {
+  askConfirm('حذف هذا المنتج؟', () => {
+    db.set('products', db.get('products', DEFAULT_PRODUCTS).filter(p => p.id !== id));
+    showToast('🗑️ تم الحذف');
+    navigate('products');
+  });
+}
+
+function resetProducts() {
+  askConfirm('إعادة ضبط قائمة المنتجات للقائمة الأصلية؟ سيتم حذف أي إضافات.', () => {
+    db.set('products', DEFAULT_PRODUCTS);
+    showToast('↺ تم إعادة الضبط');
+    navigate('products');
+  });
+}
+
+/* =============================================
+   SETTINGS
+============================================= */
+function renderSettings() {
+  const s = db.get('settings', {});
+  return `
+  <!-- CONTACT SETTINGS -->
+  <div class="settings-section">
+    <div class="settings-title">📞 معلومات التواصل</div>
+    <div class="field-grid">
+      <div class="field"><label>رقم الجوال الأول</label><input id="s-p1" type="tel" value="${s.phone1||'0503728688'}" placeholder="05xxxxxxxx"></div>
+      <div class="field"><label>رقم الجوال الثاني</label><input id="s-p2" type="tel" value="${s.phone2||'0580295393'}" placeholder="05xxxxxxxx"></div>
+      <div class="field field-full"><label>رسالة واتساب الافتراضية</label><textarea id="s-wamsg" rows="2">${s.waMessage||'مرحباً، أود الاستفسار عن عرض سعر من أشكال الترف للحديد الصناعي'}</textarea></div>
+    </div>
+    <button class="btn btn-gold" style="margin-top:.5rem" onclick="saveSettings()">💾 حفظ الإعدادات</button>
+  </div>
+
+  <!-- HOURS & LOCATION -->
+  <div class="settings-section">
+    <div class="settings-title">🕐 الدوام والعنوان</div>
+    <div class="field-grid">
+      <div class="field"><label>ساعات الدوام</label><input id="s-hours" type="text" value="${s.hours||'السبت – الخميس · 7 ص – 6 م'}"></div>
+      <div class="field"><label>العنوان</label><input id="s-addr" type="text" value="${s.address||'تشاليح المدينة المنورة'}"></div>
+    </div>
+    <button class="btn btn-gold" style="margin-top:.5rem" onclick="saveSettings()">💾 حفظ</button>
+  </div>
+
+  <!-- PASSWORD CHANGE -->
+  <div class="settings-section">
+    <div class="settings-title">🔒 تغيير كلمة المرور</div>
+    <div class="field-grid">
+      <div class="field"><label>كلمة المرور الحالية</label><input id="s-old" type="password"></div>
+      <div class="field field-full"></div>
+      <div class="field"><label>كلمة المرور الجديدة</label><input id="s-new" type="password"></div>
+      <div class="field"><label>تأكيد كلمة المرور</label><input id="s-new2" type="password"></div>
+    </div>
+    <button class="btn btn-danger" style="margin-top:.5rem" onclick="changePass()">🔒 تغيير كلمة المرور</button>
+  </div>
+
+  <!-- DANGER ZONE -->
+  <div class="settings-section" style="border-color:rgba(224,82,82,.2)">
+    <div class="settings-title" style="color:var(--danger)">⚠️ منطقة الخطر</div>
+    <p style="color:var(--muted);font-size:.88rem;margin-bottom:1rem">حذف جميع البيانات المخصصة وإعادة ضبط الموقع للإعدادات الافتراضية.</p>
+    <div style="display:flex;gap:.8rem;flex-wrap:wrap">
+      <button class="btn btn-danger btn-sm" onclick="clearData('articles')">🗑️ حذف جميع المقالات</button>
+      <button class="btn btn-danger btn-sm" onclick="clearData('reviews')">🗑️ حذف جميع التقييمات</button>
+      <button class="btn btn-danger btn-sm" onclick="clearData('products')">🗑️ إعادة ضبط المنتجات</button>
+    </div>
+  </div>`;
+}
+
+function saveSettings() {
+  const s = {
+    phone1:    document.getElementById('s-p1')?.value?.trim(),
+    phone2:    document.getElementById('s-p2')?.value?.trim(),
+    waMessage: document.getElementById('s-wamsg')?.value?.trim(),
+    hours:     document.getElementById('s-hours')?.value?.trim(),
+    address:   document.getElementById('s-addr')?.value?.trim(),
+  };
+  // phones array for main.js compatibility
+  s.phones = [s.phone1, s.phone2].filter(Boolean);
+  db.set('settings', s);
+  showToast('✅ تم حفظ الإعدادات');
+}
+
+function changePass() {
+  const oldP = document.getElementById('s-old')?.value;
+  const newP = document.getElementById('s-new')?.value;
+  const conf = document.getElementById('s-new2')?.value;
+  if (oldP !== getPass()) { showToast('كلمة المرور الحالية غير صحيحة','error'); return; }
+  if (!newP || newP.length < 6) { showToast('كلمة المرور الجديدة يجب أن تكون 6 أحرف على الأقل','error'); return; }
+  if (newP !== conf) { showToast('كلمتا المرور غير متطابقتين','error'); return; }
+  localStorage.setItem(K.pass, newP);
+  showToast('✅ تم تغيير كلمة المرور بنجاح');
+  ['s-old','s-new','s-new2'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+}
+
+function clearData(key) {
+  const msgs = {articles:'حذف جميع المقالات نهائياً؟',reviews:'حذف جميع التقييمات نهائياً؟',products:'إعادة ضبط المنتجات للقائمة الافتراضية؟'};
+  askConfirm(msgs[key], () => {
+    if (key === 'products') db.set('products', DEFAULT_PRODUCTS);
+    else if (key === 'reviews') db.set('reviews', DEFAULT_REVIEWS);
+    else localStorage.removeItem(K[key]);
+    showToast('✅ تم');
+    navigate('settings');
+  });
+}
+
+/* =============================================
+   MODAL
+============================================= */
+let _modalEl = null;
+function openModal(title, html) {
+  if (!_modalEl) {
+    _modalEl = document.createElement('div');
+    _modalEl.style.cssText = 'position:fixed;inset:0;z-index:7000;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:1rem';
+    _modalEl.addEventListener('click', e => { if(e.target===_modalEl) closeModal(); });
+    document.body.appendChild(_modalEl);
+  }
+  _modalEl.innerHTML = `
+    <div style="background:var(--card2);border:1px solid rgba(201,168,76,.2);border-radius:10px;width:100%;max-width:520px;max-height:92vh;overflow-y:auto">
+      <div style="padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--card2);z-index:1">
+        <div style="font-weight:700;font-size:1.05rem;color:var(--gold)">${title}</div>
+        <button onclick="closeModal()" style="background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer;line-height:1;padding:.2rem .5rem;border-radius:4px" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">✕</button>
+      </div>
+      ${html}
+    </div>`;
+  _modalEl.style.display = 'flex';
+  document.addEventListener('keydown', escListener);
+}
+function closeModal() {
+  if (_modalEl) _modalEl.style.display = 'none';
+  document.removeEventListener('keydown', escListener);
+}
+function escListener(e) { if(e.key==='Escape') closeModal(); }
+
+/* =============================================
+   CONFIRM
+============================================= */
+function askConfirm(msg, cb) {
+  confirmCb = cb;
+  document.getElementById('confirm-msg').textContent = msg;
+  document.getElementById('confirm-yes').onclick = () => { closeConfirm(); cb(); };
+  document.getElementById('confirm-overlay').classList.add('open');
+}
+function closeConfirm() {
+  document.getElementById('confirm-overlay').classList.remove('open');
+  confirmCb = null;
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeConfirm(); });
+
+/* =============================================
+   TOAST
+============================================= */
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `show t-${type}`;
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => { t.className = `t-${type}`; }, 3000);
+}
+
+/* =============================================
+   UTILS
+============================================= */
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* =============================================
+   INIT
+============================================= */
+document.getElementById('login-logo').innerHTML = LOGO_SVG;
+document.getElementById('pass-input').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+if (isLoggedIn()) showAdmin();
+</script>
+</body>
+</html>

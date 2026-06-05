@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منتجات الحديد الصناعي بالمدينة المنورة | كمرات وأنابيب وزوايا – أشكال الترف</title>
+<meta name="description" content="تصفح منتجات أشكال الترف للحديد الصناعي في تشاليح المدينة المنورة: كمرات I، أنابيب مربعة ومستطيلة، زوايا L، أنابيب دائرية وألواح حديدية. أسعار تنافسية وجودة مضمونة.">
+<meta name="keywords" content="كمرات حديد المدينة المنورة، أنابيب مربعة المدينة المنورة، أنابيب مستطيلة المدينة المنورة، زوايا حديد المدينة المنورة، سعر الحديد المدينة المنورة، حديد بناء المدينة المنورة">
+<meta property="og:title" content="منتجات الحديد الصناعي | أشكال الترف – المدينة المنورة">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="products">
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">
+    <div id="nav-logo-icon" style="width:42px;height:42px;flex-shrink:0"></div>
+    <div>
+      <div class="nav-logo-text">أشكال الترف</div>
+      <div class="nav-logo-sub">للحديد الصناعي</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html"    data-page="home">الرئيسية</a></li>
+    <li><a href="about.html"   data-page="about">من نحن</a></li>
+    <li><a href="products.html" data-page="products">المنتجات</a></li>
+    <li><a href="articles.html" data-page="articles">المقالات</a></li>
+    <li><a href="contact.html" data-page="contact">تواصل معنا</a></li>
+  </ul>
+  <a href="contact.html" class="nav-cta">اطلب عرض سعر</a>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="القائمة">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MAIN -->
+<main id="main" class="page">
+
+  <div class="page-hero">
+    <div class="page-hero-grid"></div>
+    <h1>منتجاتنا</h1>
+    <p>أكثر من 20 منتجاً وقياساً من أعلى جودة الحديد الصناعي</p>
+  </div>
+
+  <div class="section">
+    <!-- FILTER BAR -->
+    <div class="filter-bar" id="filter-bar"></div>
+    <!-- PRODUCTS GRID -->
+    <div class="products-grid" id="products-grid"></div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">أشكال الترف</div>
+  <div class="footer-sub">للحديد الصناعي · تشاليح المدينة المنورة</div>
+  <ul class="footer-links">
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="about.html">من نحن</a></li>
+    <li><a href="products.html">المنتجات</a></li>
+    <li><a href="articles.html">المقالات</a></li>
+    <li><a href="contact.html">تواصل معنا</a></li>
+  </ul>
+  <div class="footer-divider"></div>
+  <div class="footer-bottom">© 2025 أشكال الترف للحديد الصناعي. جميع الحقوق محفوظة.</div>
+</footer>
+
+<div class="notif" id="notif"></div>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  let activeFilter = 'all';
+  /* استخدام المنتجات من admin إذا وُجدت */
+  const ALL_PRODUCTS = PRODUCTS || [];
+
+  function renderProducts() {
+    /* Filter buttons */
+    const cats = ['all', ...new Set(ALL_PRODUCTS.map(p => p.cat))];
+    document.getElementById('filter-bar').innerHTML = cats.map(c => `
+      <button class="filter-btn ${c === activeFilter ? 'active' : ''}" onclick="setFilter('${c}')">
+        ${c === 'all' ? '🔷 الكل' : c}
+      </button>`).join('');
+
+    /* Products grid */
+    const filtered = activeFilter === 'all' ? ALL_PRODUCTS : ALL_PRODUCTS.filter(p => p.cat === activeFilter);
+    document.getElementById('products-grid').innerHTML = filtered.length
+      ? filtered.map(p => `
+        <div class="prod-card">
+          <div class="prod-img">
+            ${p.image
+              ? `<img src="${p.image}" alt="${p.name}" loading="lazy">`
+              : icon(p.icon)}
+          </div>
+          <div class="prod-body">
+            <div class="prod-tag">${p.cat}</div>
+            <div class="prod-name">${p.name}</div>
+            <div class="prod-spec">${p.spec}</div>
+            <a class="prod-action" href="contact.html">اطلب عرض سعر ←</a>
+          </div>
+        </div>`).join('')
+      : `<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🔍</div><p>لا توجد منتجات في هذا التصنيف</p></div>`;
+
+    initReveal();
+  }
+
+  function setFilter(cat) {
+    activeFilter = cat;
+    renderProducts();
+  }
+
+  renderProducts();
+</script>
+</body>
+</html>

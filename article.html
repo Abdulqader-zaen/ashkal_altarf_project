@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أشكال الترف – مقال</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="articles">
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="index.html">
+    <div id="nav-logo-icon" style="width:42px;height:42px;flex-shrink:0"></div>
+    <div>
+      <div class="nav-logo-text">أشكال الترف</div>
+      <div class="nav-logo-sub">للحديد الصناعي</div>
+    </div>
+  </a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="index.html"    data-page="home">الرئيسية</a></li>
+    <li><a href="about.html"   data-page="about">من نحن</a></li>
+    <li><a href="products.html" data-page="products">المنتجات</a></li>
+    <li><a href="articles.html" data-page="articles">المقالات</a></li>
+    <li><a href="contact.html" data-page="contact">تواصل معنا</a></li>
+  </ul>
+  <a href="contact.html" class="nav-cta">اطلب عرض سعر</a>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="القائمة">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MAIN -->
+<main id="main" class="page">
+  <div id="article-content"></div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">أشكال الترف</div>
+  <div class="footer-sub">للحديد الصناعي · تشاليح المدينة المنورة</div>
+  <ul class="footer-links">
+    <li><a href="index.html">الرئيسية</a></li>
+    <li><a href="about.html">من نحن</a></li>
+    <li><a href="products.html">المنتجات</a></li>
+    <li><a href="articles.html">المقالات</a></li>
+    <li><a href="contact.html">تواصل معنا</a></li>
+  </ul>
+  <div class="footer-divider"></div>
+  <div class="footer-bottom">© 2025 أشكال الترف للحديد الصناعي. جميع الحقوق محفوظة.</div>
+</footer>
+
+<div class="notif" id="notif"></div>
+<script src="js/data.js"></script>
+<script src="js/main.js"></script>
+<script>
+  const params  = new URLSearchParams(window.location.search);
+  const id      = parseInt(params.get('id'));
+  const article = articles.find(a => a.id === id);
+  const container = document.getElementById('article-content');
+
+  if (!article) {
+    document.title = 'أشكال الترف – مقال غير موجود';
+    container.innerHTML = `
+      <div class="section">
+        <div class="empty-state">
+          <div class="empty-icon">😕</div>
+          <p>المقال غير موجود</p>
+          <small>ربما تم حذفه أو الرابط غير صحيح</small>
+          <div style="margin-top:1.5rem">
+            <a href="articles.html" class="btn-outline">← العودة للمقالات</a>
+          </div>
+        </div>
+      </div>`;
+  } else {
+    document.title = 'أشكال الترف – ' + article.title;
+    // Render blocks if available, otherwise fallback to plain content
+    function renderBlocks(blocks) {
+      return blocks.map(b => {
+        if (b.type === 'paragraph') return `<p style="color:var(--silver);line-height:2;margin-bottom:1.4rem">${b.content.replace(/\n/g,'<br>')}</p>`;
+        if (b.type === 'heading') return b.level==3
+          ? `<h3 style="color:var(--white);font-size:1.2rem;font-weight:700;margin:2rem 0 .8rem">${b.content}</h3>`
+          : `<h2 style="color:var(--white);font-size:1.5rem;font-weight:800;margin:2.5rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(201,168,76,.15)">${b.content}</h2>`;
+        if (b.type === 'image') return `<figure style="margin:2rem 0">
+          <img src="${b.src}" alt="${b.caption||''}" style="width:100%;border-radius:8px;border:1px solid rgba(201,168,76,.15)">
+          ${b.caption?`<figcaption style="color:var(--muted);font-size:.82rem;text-align:center;margin-top:.6rem">${b.caption}</figcaption>`:''}
+        </figure>`;
+        if (b.type === 'quote') return `<blockquote style="border-right:3px solid var(--gold);padding:1rem 1.5rem;margin:2rem 0;background:rgba(201,168,76,.05);border-radius:0 8px 8px 0;font-size:1.05rem;color:var(--gold-lt,#e8c97a);font-style:italic">${b.content}</blockquote>`;
+        if (b.type === 'list') {
+          const items = Array.isArray(b.items) ? b.items : b.items.split('\n').filter(l=>l.trim());
+          return `<ul style="color:var(--silver);line-height:2;padding-right:1.5rem;margin-bottom:1.4rem">${items.map(it=>`<li style="margin-bottom:.3rem">${it}</li>`).join('')}</ul>`;
+        }
+        if (b.type === 'divider') return `<hr style="border:none;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.3),transparent);margin:2.5rem 0">`;
+        return '';
+      }).join('');
+    }
+    const coverSrc = article.coverImage || article.image || null;
+    const bodyHtml = article.blocks && article.blocks.length
+      ? renderBlocks(article.blocks)
+      : `<div style="color:var(--silver);line-height:2;white-space:pre-wrap">${article.content}</div>`;
+
+    container.innerHTML = `
+      <div class="article-detail">
+        <a class="back-btn" href="articles.html">← العودة للمقالات</a>
+        ${coverSrc
+          ? `<img class="article-detail-cover" src="${coverSrc}" alt="${article.title}">`
+          : `<div class="article-detail-cover-ph">📰</div>`}
+        <h1>${article.title}</h1>
+        <div class="article-detail-meta">
+          <span class="article-tag">${article.tag}</span>
+          <span style="color:var(--silver);font-size:.85rem">✍️ ${article.author}</span>
+          <span style="color:var(--silver);font-size:.85rem">📅 ${article.date}</span>
+          <button class="delete-btn" onclick="deleteArticle(${article.id})">🗑️ حذف المقال</button>
+        </div>
+        <div class="article-detail-body">${bodyHtml}</div>
+      </div>`;
+  }
+</script>
+</body>
+</html>
