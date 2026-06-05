@@ -291,15 +291,12 @@
 <script>
 (function(){
   var sp = document.getElementById('splash-screen');
-  // إذا زار الصفحة مسبقاً في نفس الجلسة، أخفِ الـ splash
-  if (sessionStorage.getItem('sp_done')) { sp.style.display='none'; return; }
   document.body.style.overflow = 'hidden';
   setTimeout(function(){
     sp.classList.add('s-exit');
     setTimeout(function(){
       sp.style.display = 'none';
       document.body.style.overflow = '';
-      sessionStorage.setItem('sp_done','1');
     }, 750);
   }, 2200);
 })();
