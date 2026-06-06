@@ -312,9 +312,10 @@
     <div class="sweep-bar" style="top:55%;animation-delay:1.8s"></div>
     <div class="sweep-bar" style="top:80%;animation-delay:3.5s"></div>
     <div class="hero-content">
-      <div class="hero-logo" id="hero-logo"></div>
-      <h1 class="hero-title">أشكال الترف</h1>
-      <div class="hero-sub">للحديد الصناعي · المدينة المنورة</div>
+      <div class="hero-logo" id="hero-logo">
+        <img src="ashkal_altaraf_logo.svg" alt="أشكال الترف للحديد الصناعي" style="width:100%;height:auto;filter:drop-shadow(0 0 24px rgba(201,168,76,.35))">
+      </div>
+      <div class="hero-sub" style="margin-top:1rem">للحديد الصناعي · المدينة المنورة</div>
       <div class="gold-line"></div>
       <div class="hero-tagline">قوة الحديد · فخامة التصنيع · دقة الشكل</div>
       <div class="hero-btns">
@@ -496,7 +497,7 @@
 <script src="js/data.js"></script>
 <script src="js/main.js"></script>
 <script>
-  document.getElementById('hero-logo').innerHTML = icon('logo');
+  // hero-logo already has the real logo inline
 
   const catData = [
     { type:'ibeam',  name:'كمرات I',       desc:'كمرات حديدية بجميع المقاسات من 100 إلى 250 مم لمشاريع المدينة المنورة الإنشائية', count:'4 مقاسات' },
