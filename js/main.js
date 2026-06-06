@@ -33,43 +33,39 @@ function initReveal() {
 
 /* --- COUNTER ANIMATION --- */
 function initCounters() {
-  const els = document.querySelectorAll('.stat-num[data-target]');
+  var els = document.querySelectorAll('.stat-num[data-target]');
   if (!els.length) return;
 
-  const runCounter = (el) => {
-    if (el.dataset.counted) return;   // لا تشغّله مرتين
-    el.dataset.counted = '1';
-    const target   = parseInt(el.dataset.target);
-    const duration = 2000;            // مدة العد بالميلي ثانية
-    const steps    = 80;
-    const interval = duration / steps;
-    let step = 0;
+  function runCounter(el) {
+    if (el._counted) return;
+    el._counted = true;
+    var target   = parseInt(el.getAttribute('data-target'));
+    var duration = 2000;
+    var start    = null;
 
-    const timer = setInterval(() => {
-      step++;
-      const progress = step / steps;
-      // easing: تبدأ سريع وتتباطأ في النهاية
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const cur   = Math.round(target * eased);
-      el.textContent = cur.toLocaleString('ar-EG');
-      if (step >= steps) {
-        el.textContent = target.toLocaleString('ar-EG') + '+';
-        clearInterval(timer);
-      }
-    }, interval);
-  };
+    function step(ts) {
+      if (!start) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      // ease-out cubic
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var cur   = Math.floor(eased * target);
+      el.textContent = cur.toLocaleString() + (progress < 1 ? '' : '+');
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
 
-  // شغّل العداد فقط لما العنصر يظهر في الشاشة
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        runCounter(e.target);
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.3 });
-
-  els.forEach(el => { el.textContent = '0'; obs.observe(el); });
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) { runCounter(e.target); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.1 });
+    els.forEach(function(el) { el.textContent = '0'; obs.observe(el); });
+  } else {
+    // fallback: شغّل مباشرة
+    els.forEach(function(el) { el.textContent = '0'; runCounter(el); });
+  }
 }
 
 /* --- MOBILE MENU --- */
