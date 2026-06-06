@@ -244,6 +244,49 @@ body {
   border-bottom: 1px solid rgba(201,168,76,.07);
   padding: 5rem 2rem;
 }
+/* ── header ثنائي العمود ── */
+.why-header {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 3rem; align-items: center; margin-bottom: 3rem;
+}
+.why-header-right { }
+.why-header-left  { }
+.why-link {
+  display: inline-flex; align-items: center; gap: .4rem;
+  color: var(--gold); font-size: .92rem; font-weight: 600;
+  text-decoration: none; margin-top: 1.2rem;
+  transition: gap .25s;
+}
+.why-link:hover { gap: .7rem; }
+
+/* ── 4 بطاقات بيضاء/شفافة ── */
+.why-grid-v2 {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem;
+}
+.why-card-v2 {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(201,168,76,.15);
+  border-radius: var(--r); padding: 2rem 1.5rem;
+  transition: all .35s;
+}
+.why-card-v2:hover {
+  background: rgba(255,255,255,.07);
+  border-color: rgba(201,168,76,.4);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0,0,0,.3);
+}
+.why-card-icon {
+  width: 48px; height: 48px;
+  background: rgba(201,168,76,.12);
+  border: 1px solid rgba(201,168,76,.25);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; margin-bottom: 1.2rem;
+}
+.why-card-title { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: .6rem; }
+.why-card-text  { font-size: .85rem; color: var(--silver); line-height: 1.75; }
+
+/* ── القديم (احتياطي) ── */
 .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.4rem; max-width: 1200px; margin: 3rem auto 0; }
 .why-card {
   background: rgba(255,255,255,.03); border: 1px solid rgba(201,168,76,.14);
@@ -753,4 +796,10 @@ footer {
   .nav-cta { display: none; }
   .values-grid, .articles-grid, .products-grid, .cat-grid { grid-template-columns: 1fr; }
   .cta-band { margin: 0 0 4rem; border-radius: 0; }
+  .why-header  { grid-template-columns: 1fr; gap: 1.5rem; }
+  .why-grid-v2 { grid-template-columns: 1fr 1fr; }
+}
+
+@media(max-width:480px){
+  .why-grid-v2 { grid-template-columns: 1fr; }
 }
