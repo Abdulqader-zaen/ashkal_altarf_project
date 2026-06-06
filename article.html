@@ -111,7 +111,7 @@
           <span class="article-tag">${article.tag}</span>
           <span style="color:var(--silver);font-size:.85rem">✍️ ${article.author}</span>
           <span style="color:var(--silver);font-size:.85rem">📅 ${article.date}</span>
-          <button class="delete-btn" onclick="deleteArticle(${article.id})">🗑️ حذف المقال</button>
+          ${sessionStorage.getItem('altaraf_admin_session')==='1' ? `<button class="delete-btn" onclick="deleteArticle(${article.id})">🗑️ حذف المقال</button>` : ''}
         </div>
         <div class="article-detail-body">${bodyHtml}</div>
       </div>`;

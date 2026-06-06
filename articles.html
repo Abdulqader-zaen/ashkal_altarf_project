@@ -46,7 +46,7 @@
   <div class="section">
     <div class="articles-header">
       <div style="color:var(--silver);font-size:.95rem" id="articles-count"></div>
-      <button class="btn-primary" onclick="openAddArticle()">✍️ إضافة مقال جديد</button>
+      <span id="admin-add-btn"></span>
     </div>
     <div id="articles-container"></div>
   </div>
@@ -85,12 +85,17 @@
 <script>
   document.getElementById('articles-count').textContent = articles.length + ' مقال متاح';
 
+  // زر الإضافة للأدمن فقط
+  if (sessionStorage.getItem('altaraf_admin_session') === '1') {
+    document.getElementById('admin-add-btn').innerHTML =
+      '<a href="admin.html" class="btn-primary">✍️ إضافة مقال جديد</a>';
+  }
+
   if (articles.length === 0) {
     document.getElementById('articles-container').innerHTML = `
       <div class="empty-state">
         <div class="empty-icon">📝</div>
         <p>لا توجد مقالات بعد</p>
-        <small>اضغط على "إضافة مقال جديد" لنشر أول مقال</small>
       </div>`;
   } else {
     document.getElementById('articles-container').innerHTML =
