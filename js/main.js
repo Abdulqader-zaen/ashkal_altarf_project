@@ -33,15 +33,43 @@ function initReveal() {
 
 /* --- COUNTER ANIMATION --- */
 function initCounters() {
-  document.querySelectorAll('.stat-num[data-target]').forEach(el => {
-    const target = parseInt(el.dataset.target);
-    const steps = 60; const inc = target / steps; let cur = 0; let step = 0;
+  const els = document.querySelectorAll('.stat-num[data-target]');
+  if (!els.length) return;
+
+  const runCounter = (el) => {
+    if (el.dataset.counted) return;   // لا تشغّله مرتين
+    el.dataset.counted = '1';
+    const target   = parseInt(el.dataset.target);
+    const duration = 2000;            // مدة العد بالميلي ثانية
+    const steps    = 80;
+    const interval = duration / steps;
+    let step = 0;
+
     const timer = setInterval(() => {
-      step++; cur = Math.min(cur + inc, target);
-      el.textContent = Math.floor(cur).toLocaleString('ar-SA');
-      if (step >= steps) { el.textContent = target.toLocaleString('ar-SA') + '+'; clearInterval(timer); }
-    }, 1600 / steps);
-  });
+      step++;
+      const progress = step / steps;
+      // easing: تبدأ سريع وتتباطأ في النهاية
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const cur   = Math.round(target * eased);
+      el.textContent = cur.toLocaleString('ar-EG');
+      if (step >= steps) {
+        el.textContent = target.toLocaleString('ar-EG') + '+';
+        clearInterval(timer);
+      }
+    }, interval);
+  };
+
+  // شغّل العداد فقط لما العنصر يظهر في الشاشة
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        runCounter(e.target);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+
+  els.forEach(el => { el.textContent = '0'; obs.observe(el); });
 }
 
 /* --- MOBILE MENU --- */
