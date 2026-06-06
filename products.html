@@ -87,7 +87,7 @@
     const filtered = activeFilter === 'all' ? ALL_PRODUCTS : ALL_PRODUCTS.filter(p => p.cat === activeFilter);
     document.getElementById('products-grid').innerHTML = filtered.length
       ? filtered.map(p => `
-        <div class="prod-card">
+        <div class="prod-card reveal">
           <div class="prod-img">
             ${p.image
               ? `<img src="${p.image}" alt="${p.name}" loading="lazy">`
@@ -97,6 +97,10 @@
             <div class="prod-tag">${p.cat}</div>
             <div class="prod-name">${p.name}</div>
             <div class="prod-spec">${p.spec}</div>
+            ${p.sizes && p.sizes.length ? `
+            <div class="prod-sizes">
+              ${p.sizes.map(s => `<span class="size-chip">${s}</span>`).join('')}
+            </div>` : ''}
             <a class="prod-action" href="contact.html">اطلب عرض سعر ←</a>
           </div>
         </div>`).join('')

@@ -335,7 +335,23 @@ body {
   border-radius: 12px; font-size: .75rem; color: var(--gold); margin-bottom: .7rem;
 }
 .prod-name { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: .4rem; }
-.prod-spec { font-size: .84rem; color: var(--silver); }
+.prod-spec { font-size: .84rem; color: var(--silver); margin-bottom: .8rem; }
+
+/* ── مقاسات المنتج ── */
+.prod-sizes {
+  display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .9rem;
+}
+.size-chip {
+  display: inline-block; padding: .18rem .6rem;
+  background: rgba(255,255,255,.05); border: 1px solid rgba(201,168,76,.2);
+  border-radius: 4px; font-size: .75rem; color: var(--silver);
+  cursor: default; transition: all .2s; font-family: monospace;
+  letter-spacing: .3px;
+}
+.size-chip:hover {
+  background: rgba(201,168,76,.1); border-color: rgba(201,168,76,.5);
+  color: var(--gold);
+}
 .prod-action {
   display: block; width: 100%; margin-top: 1rem; padding: .65rem;
   background: rgba(201,168,76,.08); border: 1px solid rgba(201,168,76,.22);

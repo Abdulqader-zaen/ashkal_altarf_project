@@ -462,26 +462,12 @@ const db = {
    DEFAULT DATA
 ============================================= */
 const DEFAULT_PRODUCTS = [
-  {id:'p1',name:'كمرة I مقاس 100×50 مم',cat:'كمرات',spec:'سماكة 5 مم · طول 6 متر',icon:'ibeam'},
-  {id:'p2',name:'كمرة I مقاس 150×75 مم',cat:'كمرات',spec:'سماكة 6.5 مم · طول 6-12 متر',icon:'ibeam'},
-  {id:'p3',name:'كمرة I مقاس 200×100 مم',cat:'كمرات',spec:'سماكة 8.5 مم · طول 6-12 متر',icon:'ibeam'},
-  {id:'p4',name:'كمرة I مقاس 250×125 مم',cat:'كمرات',spec:'سماكة 10 مم · طول 6-12 متر',icon:'ibeam'},
-  {id:'p5',name:'أنبوب مربع 40×40 مم',cat:'مربعات',spec:'سماكة 2-4 مم · طول 6 متر',icon:'square'},
-  {id:'p6',name:'أنبوب مربع 60×60 مم',cat:'مربعات',spec:'سماكة 2-5 مم · طول 6 متر',icon:'square'},
-  {id:'p7',name:'أنبوب مربع 80×80 مم',cat:'مربعات',spec:'سماكة 3-6 مم · طول 6 متر',icon:'square'},
-  {id:'p8',name:'أنبوب مربع 100×100 مم',cat:'مربعات',spec:'سماكة 3-6 مم · طول 6 متر',icon:'square'},
-  {id:'p9',name:'أنبوب مستطيل 60×40 مم',cat:'مستطيلات',spec:'سماكة 2-3 مم · طول 6 متر',icon:'rect'},
-  {id:'p10',name:'أنبوب مستطيل 80×40 مم',cat:'مستطيلات',spec:'سماكة 2-4 مم · طول 6 متر',icon:'rect'},
-  {id:'p11',name:'أنبوب مستطيل 100×50 مم',cat:'مستطيلات',spec:'سماكة 3-5 مم · طول 6 متر',icon:'rect'},
-  {id:'p12',name:'أنبوب مستطيل 120×60 مم',cat:'مستطيلات',spec:'سماكة 3-5 مم · طول 6 متر',icon:'rect'},
-  {id:'p13',name:'زاوية L 40×40×4 مم',cat:'زوايا',spec:'طول 6 متر · مجلفن أو عادي',icon:'angle'},
-  {id:'p14',name:'زاوية L 60×60×6 مم',cat:'زوايا',spec:'طول 6 متر · مجلفن أو عادي',icon:'angle'},
-  {id:'p15',name:'زاوية L 80×80×8 مم',cat:'زوايا',spec:'طول 6 متر · مجلفن أو عادي',icon:'angle'},
-  {id:'p16',name:'أنبوب دائري Ø48 مم',cat:'دائرية',spec:'سماكة 2-4 مم · طول 6 متر',icon:'round'},
-  {id:'p17',name:'أنبوب دائري Ø60 مم',cat:'دائرية',spec:'سماكة 2.5-5 مم · طول 6 متر',icon:'round'},
-  {id:'p18',name:'أنبوب دائري Ø76 مم',cat:'دائرية',spec:'سماكة 3-6 مم · طول 6 متر',icon:'round'},
-  {id:'p19',name:'لوح صلب 6 مم',cat:'ألواح',spec:'1000×2000 مم · صلب كربوني',icon:'sheet'},
-  {id:'p20',name:'لوح مشبك منقوش',cat:'ألواح',spec:'1000×2000 مم · مجلفن أو عادي',icon:'sheet'},
+  {id:'p1',name:'كمرة I',cat:'كمرات',icon:'ibeam',spec:'سماكة 5-10 مم · طول 6-12 متر',sizes:['100×50 مم','150×75 مم','200×100 مم','250×125 مم']},
+  {id:'p2',name:'أنبوب مربع',cat:'مربعات',icon:'square',spec:'سماكة 2-6 مم · طول 6 متر',sizes:['40×40 مم','60×60 مم','80×80 مم','100×100 مم']},
+  {id:'p3',name:'أنبوب مستطيل',cat:'مستطيلات',icon:'rect',spec:'سماكة 2-5 مم · طول 6 متر',sizes:['60×40 مم','80×40 مم','100×50 مم','120×60 مم']},
+  {id:'p4',name:'زاوية L',cat:'زوايا',icon:'angle',spec:'طول 6 متر · مجلفن أو عادي',sizes:['40×40×4 مم','60×60×6 مم','80×80×8 مم']},
+  {id:'p5',name:'أنبوب دائري',cat:'دائرية',icon:'round',spec:'سماكة 2-6 مم · طول 6 متر',sizes:['Ø48 مم','Ø60 مم','Ø76 مم']},
+  {id:'p6',name:'ألواح حديدية',cat:'ألواح',icon:'sheet',spec:'1000×2000 مم',sizes:['لوح صلب 6 مم','لوح مشبك منقوش']},
 ];
 
 const DEFAULT_REVIEWS = [
@@ -1075,12 +1061,31 @@ function openProductEditor(id) {
     `<option value="${v}" ${p&&p.cat===v?'selected':''}>${v}</option>`).join('');
   const hasImg = p && p.image;
 
+  const existingSizes = p && p.sizes ? p.sizes : [];
+
   openModal(p ? 'تعديل منتج' : 'إضافة منتج', `
     <div style="padding:1.5rem;display:flex;flex-direction:column;gap:1rem">
       <div class="field"><label>اسم المنتج *</label><input id="pd-name" type="text" value="${p?esc(p.name):''}"></div>
       <div class="field"><label>الفئة *</label><select id="pd-cat">${catOpts}</select></div>
       <div class="field"><label>المواصفات *</label><input id="pd-spec" type="text" value="${p?esc(p.spec):''}"></div>
       <div class="field"><label>الأيقونة (احتياطي إذا لم تُرفع صورة)</label><select id="pd-icon">${iconOpts}</select></div>
+
+      <!-- SIZES -->
+      <div class="field">
+        <label>المقاسات المتاحة</label>
+        <div id="pd-sizes-wrap" style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.5rem;min-height:28px">
+          ${existingSizes.map((s,i) => `
+            <span style="display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .6rem;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);border-radius:4px;font-size:.8rem;color:var(--gold)">
+              ${esc(s)}
+              <button onclick="removePdSize(${i})" style="background:none;border:none;cursor:pointer;color:var(--danger);font-size:.9rem;line-height:1;padding:0">×</button>
+            </span>`).join('')}
+        </div>
+        <div style="display:flex;gap:.5rem">
+          <input id="pd-size-input" type="text" placeholder="مثال: 100×50 مم" style="flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.18);border-radius:5px;padding:.5rem .7rem;color:var(--text);font-size:.88rem">
+          <button class="btn btn-outline btn-sm" onclick="addPdSize()">+ إضافة</button>
+        </div>
+        <input type="hidden" id="pd-sizes-data" value="${esc(JSON.stringify(existingSizes))}">
+      </div>
 
       <!-- IMAGE UPLOAD -->
       <div class="field">
@@ -1120,6 +1125,35 @@ function openProductEditor(id) {
   }, 80);
 }
 
+function addPdSize() {
+  const inp = document.getElementById('pd-size-input');
+  if (!inp || !inp.value.trim()) return;
+  const hidden = document.getElementById('pd-sizes-data');
+  const sizes = JSON.parse(hidden.value || '[]');
+  sizes.push(inp.value.trim());
+  hidden.value = JSON.stringify(sizes);
+  inp.value = '';
+  _refreshPdSizes(sizes);
+}
+
+function removePdSize(idx) {
+  const hidden = document.getElementById('pd-sizes-data');
+  const sizes = JSON.parse(hidden.value || '[]');
+  sizes.splice(idx, 1);
+  hidden.value = JSON.stringify(sizes);
+  _refreshPdSizes(sizes);
+}
+
+function _refreshPdSizes(sizes) {
+  const wrap = document.getElementById('pd-sizes-wrap');
+  if (!wrap) return;
+  wrap.innerHTML = sizes.map((s,i) => `
+    <span style="display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .6rem;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);border-radius:4px;font-size:.8rem;color:var(--gold)">
+      ${esc(s)}
+      <button onclick="removePdSize(${i})" style="background:none;border:none;cursor:pointer;color:var(--danger);font-size:.9rem;line-height:1;padding:0">×</button>
+    </span>`).join('');
+}
+
 function removeProdImg() {
   const prev = document.getElementById('pd-img-preview');
   const zone = document.getElementById('pd-img-zone');
@@ -1128,18 +1162,20 @@ function removeProdImg() {
 }
 
 function saveProduct(id) {
-  const name = document.getElementById('pd-name')?.value?.trim();
-  const cat  = document.getElementById('pd-cat')?.value;
-  const spec = document.getElementById('pd-spec')?.value?.trim();
-  const icon = document.getElementById('pd-icon')?.value;
-  const prev = document.getElementById('pd-img-preview');
+  const name  = document.getElementById('pd-name')?.value?.trim();
+  const cat   = document.getElementById('pd-cat')?.value;
+  const spec  = document.getElementById('pd-spec')?.value?.trim();
+  const icon  = document.getElementById('pd-icon')?.value;
+  const prev  = document.getElementById('pd-img-preview');
   const image = (prev && prev.style.display !== 'none' && prev.src && prev.src.startsWith('data:')) ? prev.src : null;
+  const sizesRaw = document.getElementById('pd-sizes-data')?.value || '[]';
+  const sizes = JSON.parse(sizesRaw);
   if (!name || !cat || !spec) { showToast('يرجى ملء الحقول','error'); return; }
   let prods = db.get('products', DEFAULT_PRODUCTS);
   if (id) {
-    prods = prods.map(p => p.id === id ? {...p, name, cat, spec, icon, image: image ?? p.image ?? null} : p);
+    prods = prods.map(p => p.id === id ? {...p, name, cat, spec, icon, sizes, image: image ?? p.image ?? null} : p);
   } else {
-    prods.push({ id: 'p'+Date.now(), name, cat, spec, icon: icon||'square', image: image||null });
+    prods.push({ id: 'p'+Date.now(), name, cat, spec, icon: icon||'square', sizes, image: image||null });
   }
   db.set('products', prods);
   closeModal();
