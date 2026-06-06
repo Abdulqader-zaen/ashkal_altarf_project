@@ -53,13 +53,8 @@ body {
   display: flex; align-items: center; gap: .8rem;
   text-decoration: none; color: inherit;
 }
-.nav-logo-text {
-  font-size: 1.15rem; font-weight: 900;
-  background: linear-gradient(135deg, var(--white), var(--gold));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.nav-logo-sub { font-size: .65rem; color: var(--silver); letter-spacing: 2px; }
+.nav-logo-text { display: none; }
+.nav-logo-sub  { display: none; }
 
 .nav-links {
   display: flex; gap: 1.8rem; list-style: none; align-items: center;

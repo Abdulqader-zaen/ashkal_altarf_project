@@ -220,9 +220,9 @@ function injectFloatingBtns() {
 /* --- INIT ON EVERY PAGE --- */
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* Inject nav logo SVG */
+  /* Inject nav logo */
   const logoEl = document.getElementById('nav-logo-icon');
-  if (logoEl) logoEl.innerHTML = icon('logo');
+  if (logoEl) logoEl.innerHTML = '<img src="ashkal_altaraf_logo.svg" alt="أشكال الترف" style="height:40px;width:auto;display:block">';
 
   /* Set active nav link */
   const page = document.body.dataset.page;
