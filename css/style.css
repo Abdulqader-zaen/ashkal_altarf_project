@@ -133,7 +133,7 @@ body {
   position: relative; z-index: 2;
   text-align: center; padding: 2rem; max-width: 820px;
 }
-.hero-logo { width: clamp(260px, 45vw, 420px); height: auto; margin: 0 auto 1.5rem; }
+.hero-logo { width: clamp(320px, 60vw, 580px); height: auto; margin: 0 auto 1.5rem; }
 .hero-logo img { width: 100%; height: auto; }
 
 .hero-title {
