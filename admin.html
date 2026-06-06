@@ -448,7 +448,7 @@ const K = {
   session:  'altaraf_admin_session'
 };
 
-const DEFAULT_PASS = 'altaraf2025';
+const DEFAULT_PASS = '';
 
 /* =============================================
    STORAGE HELPERS
@@ -1345,6 +1345,12 @@ function showToast(msg, type='success') {
    UTILS
 ============================================= */
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function sanitize(str) {
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML;
+}
 
 /* =============================================
    INIT
