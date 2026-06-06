@@ -49,7 +49,7 @@ function initCounters() {
       // ease-out cubic
       var eased = 1 - Math.pow(1 - progress, 3);
       var cur   = Math.floor(eased * target);
-      el.textContent = cur.toLocaleString() + (progress < 1 ? '' : '+');
+      el.textContent = cur.toLocaleString('en') + (progress < 1 ? '' : '+');
       if (progress < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);

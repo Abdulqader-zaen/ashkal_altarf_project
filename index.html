@@ -275,6 +275,8 @@
     setTimeout(function(){
       sp.style.display = 'none';
       document.body.style.overflow = '';
+      // شغّل العداد بعد ما يختفي الـ splash
+      if (typeof initCounters === 'function') initCounters();
     }, 750);
   }, 2200);
 })();
@@ -635,8 +637,8 @@
   }
 
   setTimeout(initCarousel, 150); /* after reviews are rendered */
-  setTimeout(initCounters, 500);
   setTimeout(initReveal, 100);
+  // initCounters يشتغل بعد انتهاء الـ splash (في الأعلى)
 </script>
 </body>
 </html>
