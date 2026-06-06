@@ -40,12 +40,19 @@
   <div class="page-hero">
     <div class="page-hero-grid"></div>
     <h1>منتجاتنا</h1>
-    <p>أكثر من 20 منتجاً وقياساً من أعلى جودة الحديد الصناعي</p>
+    <p>كتالوج شامل من الحديد الصناعي بجميع الأنواع والمقاسات</p>
   </div>
 
   <div class="section">
+    <!-- SEARCH -->
+    <div style="margin-bottom:1.2rem">
+      <input id="prod-search" type="search" placeholder="🔍 ابحث عن منتج..." oninput="renderProducts()"
+        style="width:100%;max-width:480px;background:rgba(255,255,255,.05);border:1px solid rgba(201,168,76,.25);border-radius:8px;padding:.8rem 1.2rem;color:#e8eaf2;font-family:'Tajawal',sans-serif;font-size:1rem;outline:none">
+    </div>
     <!-- FILTER BAR -->
     <div class="filter-bar" id="filter-bar"></div>
+    <!-- COUNT -->
+    <div id="prod-count" style="color:rgba(138,155,176,.7);font-size:.85rem;margin-bottom:1rem"></div>
     <!-- PRODUCTS GRID -->
     <div class="products-grid" id="products-grid"></div>
   </div>
@@ -68,51 +75,64 @@
 </footer>
 
 <div class="notif" id="notif"></div>
+<script src="js/data_products.js"></script>
 <script src="js/data.js"></script>
 <script src="js/main.js"></script>
 <script>
   let activeFilter = 'all';
-  /* استخدام المنتجات من admin إذا وُجدت */
-  const ALL_PRODUCTS = PRODUCTS || [];
+
+  /* دمج الكتالوج مع الصور المحفوظة في الـ admin */
+  const PROD_IMAGES = JSON.parse(localStorage.getItem('altaraf_prod_images') || '{}');
+  const ALL_PRODUCTS = CATALOG_PRODUCTS.map(p => ({
+    ...p, image: PROD_IMAGES[p.id] || null
+  }));
 
   function renderProducts() {
-    /* Filter buttons */
+    const q = (document.getElementById('prod-search')?.value || '').trim().toLowerCase();
+
+    /* فلترة */
+    let filtered = activeFilter === 'all' ? ALL_PRODUCTS : ALL_PRODUCTS.filter(p => p.cat === activeFilter);
+    if (q) filtered = filtered.filter(p =>
+      p.name.toLowerCase().includes(q) ||
+      p.cat.toLowerCase().includes(q) ||
+      (p.sizes||[]).some(s => s.toLowerCase().includes(q))
+    );
+
+    /* أزرار التصنيف */
     const cats = ['all', ...new Set(ALL_PRODUCTS.map(p => p.cat))];
     document.getElementById('filter-bar').innerHTML = cats.map(c => `
       <button class="filter-btn ${c === activeFilter ? 'active' : ''}" onclick="setFilter('${c}')">
         ${c === 'all' ? '🔷 الكل' : c}
       </button>`).join('');
 
-    /* Products grid */
-    const filtered = activeFilter === 'all' ? ALL_PRODUCTS : ALL_PRODUCTS.filter(p => p.cat === activeFilter);
+    document.getElementById('prod-count').textContent = `${filtered.length} منتج`;
+
+    /* Grid */
     document.getElementById('products-grid').innerHTML = filtered.length
       ? filtered.map(p => `
         <div class="prod-card reveal">
           <div class="prod-img">
             ${p.image
               ? `<img src="${p.image}" alt="${p.name}" loading="lazy">`
-              : icon(p.icon)}
+              : icon(p.icon || 'square')}
           </div>
           <div class="prod-body">
             <div class="prod-tag">${p.cat}</div>
             <div class="prod-name">${p.name}</div>
-            <div class="prod-spec">${p.spec}</div>
             ${p.sizes && p.sizes.length ? `
-            <div class="prod-sizes">
-              ${p.sizes.map(s => `<span class="size-chip">${s}</span>`).join('')}
+            <div class="prod-sizes" style="margin-top:.5rem">
+              ${p.sizes.slice(0,6).map(s => `<span class="size-chip">${s}</span>`).join('')}
+              ${p.sizes.length > 6 ? `<span class="size-chip" style="opacity:.6">+${p.sizes.length-6}</span>` : ''}
             </div>` : ''}
             <a class="prod-action" href="contact.html">اطلب عرض سعر ←</a>
           </div>
         </div>`).join('')
-      : `<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🔍</div><p>لا توجد منتجات في هذا التصنيف</p></div>`;
+      : `<div class="empty-state" style="grid-column:1/-1"><div class="empty-icon">🔍</div><p>لا توجد منتجات مطابقة</p></div>`;
 
     initReveal();
   }
 
-  function setFilter(cat) {
-    activeFilter = cat;
-    renderProducts();
-  }
+  function setFilter(cat) { activeFilter = cat; renderProducts(); }
 
   renderProducts();
 </script>
