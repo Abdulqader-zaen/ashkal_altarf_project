@@ -1,8 +1,7 @@
-# ─── حماية لوحة الإدارة ───
-# غيّر المسار أدناه لمسارك الحقيقي على Hostinger
+# ─── حماية لوحة الإدارة فقط ───
 <Files "admin.html">
   AuthType Basic
   AuthName "Admin Area"
-  AuthUserFile /home/u123456789/domains/yoursite.com/public_html/.htpasswd
+  AuthUserFile /home/u765337944/.htpasswd
   Require valid-user
 </Files>
