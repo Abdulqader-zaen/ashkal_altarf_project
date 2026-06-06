@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* Inject nav logo */
   const logoEl = document.getElementById('nav-logo-icon');
-  if (logoEl) logoEl.innerHTML = '<img src="ashkal_altaraf_logo.svg" alt="أشكال الترف" style="height:40px;width:auto;display:block">';
+  if (logoEl) logoEl.innerHTML = '<img src="ashkal_altaraf_logo.svg" alt="أشكال الترف" width="680" height="300" style="height:40px;width:auto;display:block">';
 
   /* Set active nav link */
   const page = document.body.dataset.page;
