@@ -28,6 +28,22 @@ body {
   min-height: 100vh;
 }
 
+/* --- RTL FIX: ضمان اتجاه النص العربي في جميع العناصر --- */
+input, textarea, select, button {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Tajawal', sans-serif;
+}
+input[type="number"],
+input[type="date"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+input[type="password"] {
+  direction: ltr;
+  text-align: right;
+}
+
 /* --- PAGE ENTRY --- */
 .page { animation: pageIn .4s ease both; }
 @keyframes pageIn {
