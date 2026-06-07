@@ -2,7 +2,13 @@
    أشكال الترف للحديد الصناعي
    style.css — الأنماط المشتركة
 ======================================= */
-@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+
+/* الخط الأساسي للموقع - Neue Haas Grotesk Arabic مع fallback */
+:root {
+  --font-main: "Neue Haas Grotesk Arabic", "IBM Plex Sans Arabic", "Tajawal", -apple-system, sans-serif;
+}
+* { font-family: var(--font-main) !important; }
 
 /* --- VARIABLES --- */
 :root {
