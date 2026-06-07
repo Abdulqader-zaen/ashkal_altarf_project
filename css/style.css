@@ -12,6 +12,11 @@
   font-family: var(--font-main) !important;
 }
 
+/* قاعدة وقائية: منع letter-spacing من كسر اتصال الحروف العربية */
+:lang(ar), [lang="ar"], html[dir="rtl"] *:not(.allow-spacing) {
+  letter-spacing: 0 !important;
+}
+
 /* --- VARIABLES --- */
 :root {
   --steel:   #1a1a2e;
@@ -63,7 +68,7 @@ body {
   font-weight: 400;
   font-size: clamp(.9rem, 2.2vw, 1.4rem);
   color: #a0aab8;
-  letter-spacing: 4px;
+  letter-spacing: 0;  /* الحروف العربية يجب أن تتصل */
   margin-top: .3rem;
 }
 .nav-brand-text {
@@ -212,14 +217,14 @@ input[type="password"] {
 }
 .hero-sub {
   font-size: clamp(.85rem, 2vw, 1.05rem);
-  color: var(--silver); letter-spacing: 5px; text-transform: uppercase;
+  color: var(--silver); letter-spacing: 0;
 }
 .gold-line {
   width: 90px; height: 2.5px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
   margin: 1.6rem auto;
 }
-.hero-tagline { font-size: 1rem; color: var(--gold-lt); font-weight: 300; letter-spacing: 3px; margin-bottom: 2.8rem; }
+.hero-tagline { font-size: 1rem; color: var(--gold-lt); font-weight: 300; letter-spacing: 0; margin-bottom: 2.8rem; }
 .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
 /* =====================
@@ -254,7 +259,7 @@ input[type="password"] {
   display: inline-block; padding: .3rem 1.1rem;
   background: rgba(201,168,76,.1); border: 1px solid rgba(201,168,76,.3);
   border-radius: 20px; color: var(--gold);
-  font-size: .78rem; letter-spacing: 2.5px; text-transform: uppercase;
+  font-size: .78rem; letter-spacing: 0;
   margin-bottom: 1rem;
 }
 .sec-title { font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 900; color: var(--white); margin-bottom: .7rem; }
@@ -661,7 +666,7 @@ footer {
   -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   background-clip: text; margin-bottom: .4rem;
 }
-.footer-sub { font-size: .78rem; color: var(--silver); letter-spacing: 3px; margin-bottom: 2rem; }
+.footer-sub { font-size: .78rem; color: var(--silver); letter-spacing: 0; margin-bottom: 2rem; }
 .footer-links { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem; list-style: none; }
 .footer-links a { color: var(--silver); text-decoration: none; font-size: .9rem; transition: color .3s; }
 .footer-links a:hover { color: var(--gold); }
