@@ -48,7 +48,7 @@ body {
 .hero-brand-big {
   font-family: "Cairo", "Tajawal", sans-serif !important;
   font-weight: 900 !important;
-  font-size: clamp(5rem, 16vw, 10rem) !important;
+  font-size: clamp(10rem, 32vw, 20rem) !important;
   line-height: 1.1 !important;
   letter-spacing: 0 !important;
   text-align: center !important;
@@ -68,7 +68,7 @@ body {
   filter: drop-shadow(0 0 24px rgba(201,168,76,.35));
 }
 @media (max-width: 480px) {
-  .hero-brand-big { font-size: clamp(4rem, 18vw, 7rem) !important; }
+  .hero-brand-big { font-size: clamp(8rem, 36vw, 14rem) !important; }
 }
 
 /* ====================================================
