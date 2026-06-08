@@ -206,7 +206,8 @@ input[type="password"] {
 }
 .hero-logo { width: 100%; max-width: 720px; height: auto; margin: 0 auto 1.5rem; }
 .hero-logo img { width: 100%; height: auto; }
-.hero-logo.brand-logo-text .brand-main { font-size: clamp(3.5rem, 11vw, 7rem); }
+.hero-logo .brand-main,
+.hero-logo.brand-logo-text .brand-main { font-size: clamp(3.5rem, 11vw, 7rem) !important; line-height: 1.2; }
 
 .hero-title {
   font-size: clamp(2.4rem, 6.5vw, 5rem);
