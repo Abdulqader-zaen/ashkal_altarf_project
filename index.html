@@ -152,14 +152,13 @@
 /* غلاف اللوجو */
 .sp-logo-wrap {
   position: relative;
-  width: clamp(320px, 80vw, 600px);
-  margin-bottom: 1.4rem;
+  width: clamp(260px, 70vw, 460px);
+  margin-bottom: 1rem;
   animation: spLogoIn .7s cubic-bezier(.34,1.56,.64,1) .2s both;
   border-radius: 6px;
   overflow: hidden;
+  filter: drop-shadow(0 0 24px rgba(201,168,76,.35));
 }
-.sp-logo-wrap .brand-main { font-size: clamp(4rem, 15vw, 7rem) !important; }
-.sp-logo-wrap .brand-sub  { font-size: clamp(1.1rem, 4vw, 1.9rem) !important; }
 @keyframes spLogoIn {
   from { transform: scale(.55) translateY(20px); opacity: 0; filter: blur(10px); }
   to   { transform: scale(1)   translateY(0);    opacity: 1; filter: blur(0); }
@@ -255,10 +254,9 @@
   <div class="sp-center">
     <div class="sp-glow"></div>
 
-    <!-- اللوجو HTML نصي - يضمن الخط على iOS -->
-    <div class="sp-logo-wrap brand-logo-text">
-      <div class="brand-main">أشكال الترف</div>
-      <div class="brand-sub">للحديد الصناعي</div>
+    <!-- اللوجو الصورة -->
+    <div class="sp-logo-wrap">
+      <img src="ashkal_altaraf_logo_v2.svg" alt="أشكال الترف للحديد الصناعي" width="405" height="443">
       <div class="sp-shimmer"></div>
     </div>
 
@@ -317,7 +315,7 @@
     <div class="sweep-bar" style="top:55%;animation-delay:1.8s"></div>
     <div class="sweep-bar" style="top:80%;animation-delay:3.5s"></div>
     <div class="hero-content">
-      <h1 class="hero-brand-big" id="hero-logo">أشكال الترف</h1>
+      <img class="hero-brand-img" src="ashkal_altaraf_logo_v2.svg" alt="أشكال الترف للحديد الصناعي" width="405" height="443">
       <div class="hero-sub" style="margin-top:.6rem">للحديد الصناعي · المدينة المنورة</div>
       <div class="gold-line"></div>
       <div class="hero-tagline">قوة الحديد · فخامة التصنيع · دقة الشكل</div>

@@ -152,9 +152,8 @@
   const box = document.getElementById('about-logo-box');
   const logoDiv = document.createElement('div');
   logoDiv.style.cssText = 'width:80%;margin:0 auto;padding:1rem';
-  logoDiv.className = 'brand-logo-text';
-  logoDiv.style.filter = 'drop-shadow(0 0 20px rgba(201,168,76,.3))';
-  logoDiv.innerHTML = '<div class="brand-main">أشكال الترف</div><div class="brand-sub">للحديد الصناعي</div>';
+  logoDiv.style.cssText = 'width:80%;max-width:380px;margin:0 auto;filter:drop-shadow(0 0 20px rgba(201,168,76,.3))';
+  logoDiv.innerHTML = '<img src="ashkal_altaraf_logo_v2.svg" alt="أشكال الترف" width="405" height="443" style="width:100%;height:auto;display:block">';
   box.insertBefore(logoDiv, box.firstChild);
 </script>
 </body>

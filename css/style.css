@@ -45,30 +45,16 @@ body {
    HERO LOGO BIG — اللوجو في الصفحة الرئيسية
    عنصر مستقل بأحجام كبيرة لا تتأثر بأي CSS آخر
 ==================================================== */
-.hero-brand-big {
-  font-family: "Cairo", "Tajawal", sans-serif !important;
-  font-weight: 900 !important;
-  font-size: clamp(10rem, 32vw, 20rem) !important;
-  line-height: 1.1 !important;
-  letter-spacing: 0 !important;
-  text-align: center !important;
-  margin: 0 auto 1rem !important;
-  padding: 0 !important;
-  width: auto !important;
-  max-width: none !important;
+.hero-brand-img {
   display: block !important;
-
-  color: #c9a84c;
-  background: linear-gradient(90deg, #e8c97a 0%, #c9a84c 50%, #e8c97a 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-
-  filter: drop-shadow(0 0 24px rgba(201,168,76,.35));
+  margin: 0 auto 1rem !important;
+  width: clamp(280px, 60vw, 520px) !important;
+  height: auto !important;
+  max-width: 100% !important;
+  filter: drop-shadow(0 0 30px rgba(201,168,76,.4));
 }
 @media (max-width: 480px) {
-  .hero-brand-big { font-size: clamp(8rem, 36vw, 14rem) !important; }
+  .hero-brand-img { width: clamp(240px, 78vw, 360px) !important; }
 }
 
 /* ====================================================
