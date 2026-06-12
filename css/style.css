@@ -48,13 +48,13 @@ body {
 .hero-brand-img {
   display: block !important;
   margin: 0 auto 1rem !important;
-  width: clamp(280px, 60vw, 520px) !important;
+  width: clamp(340px, 75vw, 680px) !important;
   height: auto !important;
   max-width: 100% !important;
   filter: drop-shadow(0 0 30px rgba(201,168,76,.4));
 }
 @media (max-width: 480px) {
-  .hero-brand-img { width: clamp(240px, 78vw, 360px) !important; }
+  .hero-brand-img { width: clamp(280px, 85vw, 420px) !important; }
 }
 
 /* ====================================================

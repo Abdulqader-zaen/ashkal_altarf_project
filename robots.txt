@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+
+# Allow AI crawlers for citation
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://ashkaltarfmadinah.com/sitemap.xml
