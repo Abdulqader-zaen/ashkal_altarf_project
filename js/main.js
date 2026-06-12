@@ -93,8 +93,9 @@ function overlayClick(e) {
 
 /* --- ARTICLE CARD HTML --- */
 function articleCardHTML(a) {
+  const href = a.url ? a.url : `article.html?id=${a.id}`;
   return `
-  <a class="article-card" href="article.html?id=${a.id}">
+  <a class="article-card" href="${href}">
     <div class="article-cover">
       ${a.image ? `<img src="${a.image}" alt="${a.title}">` : `<div class="article-cover-placeholder">📰</div>`}
     </div>
