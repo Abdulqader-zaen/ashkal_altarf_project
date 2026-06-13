@@ -84,7 +84,7 @@
   /* دمج الكتالوج مع الصور المحفوظة في الـ admin */
   const PROD_IMAGES = JSON.parse(localStorage.getItem('altaraf_prod_images') || '{}');
   const ALL_PRODUCTS = CATALOG_PRODUCTS.map(p => ({
-    ...p, image: PROD_IMAGES[p.id] || null
+    ...p, image: PROD_IMAGES[p.id] || p.image || null
   }));
 
   function renderProducts() {
