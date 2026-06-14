@@ -3,13 +3,16 @@
 ======================================= */
 
 /* --- ARTICLES STATE --- */
-const _ARTICLES_VERSION = DEFAULT_ARTICLES.length;
-if (Number(localStorage.getItem('altaraf_articles_version')) !== _ARTICLES_VERSION) {
-  localStorage.removeItem('altaraf_v1_articles');
-  localStorage.setItem('altaraf_articles_version', _ARTICLES_VERSION);
+// Merge stored articles with DEFAULT_ARTICLES: keep admin-written articles + add any new defaults
+const _storedArticles = JSON.parse(localStorage.getItem('altaraf_v1_articles') || 'null');
+let articles;
+if (_storedArticles) {
+  const storedIds = new Set(_storedArticles.map(a => a.id));
+  const missing = DEFAULT_ARTICLES.filter(a => !storedIds.has(a.id));
+  articles = [..._storedArticles, ...missing].sort((a, b) => new Date(b.date) - new Date(a.date));
+} else {
+  articles = JSON.parse(JSON.stringify(DEFAULT_ARTICLES));
 }
-let articles = JSON.parse(localStorage.getItem('altaraf_v1_articles') || 'null')
-               || JSON.parse(JSON.stringify(DEFAULT_ARTICLES));
 
 function saveArticles() {
   localStorage.setItem('altaraf_v1_articles', JSON.stringify(articles));

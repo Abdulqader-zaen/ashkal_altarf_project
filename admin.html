@@ -432,6 +432,7 @@ tbody tr:hover{background:rgba(255,255,255,.02)}
 <div id="toast"></div>
 
 <!-- ===== JS ===== -->
+<script src="js/data.js"></script>
 <script src="js/data_products.js"></script>
 <script>
 /* =============================================
@@ -481,6 +482,23 @@ const DEFAULT_REVIEWS = [
   {id:'r5',name:'فهد الرشيدي',initial:'ف',stars:5,text:'تعاملت معهم لمشروع مستودع في الحرة الغربية. أبدعوا في التوريد والالتزام بالمواعيد.',date:'منذ 5 أشهر'},
   {id:'r6',name:'أحمد البلوي',initial:'أ',stars:5,text:'احتجت حديد بشكل عاجل للمشروع وما خذلوني. وصل الطلب في أقل من ساعتين لحي السلام.',date:'منذ 3 أسابيع'},
 ];
+
+/* =============================================
+   ARTICLES HELPERS
+============================================= */
+// Returns articles from localStorage, merged with DEFAULT_ARTICLES as baseline
+function getArticles() {
+  const stored = db.get('articles', null);
+  if (!stored) return JSON.parse(JSON.stringify(DEFAULT_ARTICLES));
+  // Merge: keep stored, add any DEFAULT_ARTICLES not already present
+  const storedIds = new Set(stored.map(a => a.id));
+  const missing = DEFAULT_ARTICLES.filter(a => !storedIds.has(a.id));
+  return [...stored, ...missing].sort((a, b) => new Date(b.date) - new Date(a.date));
+}
+
+function setArticles(arts) {
+  db.set('articles', arts);
+}
 
 /* =============================================
    STATE
@@ -566,7 +584,7 @@ function closeSidebar() {
    DASHBOARD
 ============================================= */
 function renderDashboard() {
-  const arts  = db.get('articles', []);
+  const arts  = getArticles();
   const revs  = db.get('reviews',  DEFAULT_REVIEWS);
   const prods = db.get('products', DEFAULT_PRODUCTS);
   const sets  = db.get('settings', {});
@@ -641,7 +659,7 @@ function renderDashboard() {
    ARTICLES LIST
 ============================================= */
 function renderArticlesList() {
-  const arts = db.get('articles', []);
+  const arts = getArticles();
   return `
   <div class="section-header">
     <div class="section-title">المقالات (${arts.length})</div>
@@ -677,7 +695,7 @@ function renderArticlesList() {
    ARTICLE EDITOR (block-based)
 ============================================= */
 function renderArticleEditor(id) {
-  const arts = db.get('articles', []);
+  const arts = getArticles();
   const a    = id ? arts.find(x => x.id === id) : null;
 
   // load blocks into state
@@ -906,7 +924,7 @@ function saveArticle() {
     return b;
   });
 
-  let arts = db.get('articles', []);
+  let arts = getArticles();
   if (editingId) {
     arts = arts.map(a => a.id === editingId ? {
       ...a, title, excerpt, tag, author, date, metaDesc: seo,
@@ -916,15 +934,15 @@ function saveArticle() {
     arts.unshift({ id: Date.now(), title, excerpt, tag, author, date, metaDesc: seo,
       coverImage: coverImg, blocks: processedBlocks, content: plainContent, image: coverImg });
   }
-  db.set('articles', arts);
+  setArticles(arts);
   showToast('✅ تم حفظ المقال بنجاح');
   navigate('articles');
 }
 
 function deleteArticle(id) {
   askConfirm('هل تريد حذف هذا المقال؟', () => {
-    let arts = db.get('articles', []).filter(a => a.id !== id);
-    db.set('articles', arts);
+    let arts = getArticles().filter(a => a.id !== id);
+    setArticles(arts);
     showToast('🗑️ تم الحذف');
     navigate('articles');
   });
@@ -1401,6 +1419,7 @@ function clearData(key) {
   askConfirm(msgs[key], () => {
     if (key === 'products') db.set('products', DEFAULT_PRODUCTS);
     else if (key === 'reviews') db.set('reviews', DEFAULT_REVIEWS);
+    else if (key === 'articles') { localStorage.removeItem(K.articles); }
     else localStorage.removeItem(K[key]);
     showToast('✅ تم');
     navigate('settings');
