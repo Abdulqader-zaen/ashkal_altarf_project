@@ -3,6 +3,11 @@
 ======================================= */
 
 /* --- ARTICLES STATE --- */
+const _ARTICLES_VERSION = DEFAULT_ARTICLES.length;
+if (Number(localStorage.getItem('altaraf_articles_version')) !== _ARTICLES_VERSION) {
+  localStorage.removeItem('altaraf_v1_articles');
+  localStorage.setItem('altaraf_articles_version', _ARTICLES_VERSION);
+}
 let articles = JSON.parse(localStorage.getItem('altaraf_v1_articles') || 'null')
                || JSON.parse(JSON.stringify(DEFAULT_ARTICLES));
 
